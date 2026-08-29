@@ -6,6 +6,10 @@ Site source: `site/`
 
 Deployment workflow: `.github/workflows/deploy-pages.yml`
 
+## Current deployment state
+
+GitHub Pages is enabled and configured to use GitHub Actions. Earlier deployment attempts were made before the Pages configuration was fully active and failed. This update intentionally triggers a fresh deployment from the current `main` state after enablement.
+
 ## Hosting
 
 The initial public research site is deployed with GitHub Pages from the `site/` directory through GitHub Actions.
