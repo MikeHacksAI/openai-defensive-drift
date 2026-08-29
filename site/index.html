@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Defensive Drift is an independent defensive-security research project measuring how AI systems reconcile configuration drift, incident history, and remediation evidence.">
+  <title>Defensive Drift — AI Security Drift Research</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top">Defensive Drift</a>
+    <nav aria-label="Primary navigation">
+      <a href="#research">Research</a>
+      <a href="#metrics">Metrics</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#status">Status</a>
+      <a class="nav-button" href="https://github.com/MikeHacksAI/openai-defensive-drift">GitHub</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero shell">
+      <div class="eyebrow">Independent defensive-security research</div>
+      <h1>Can AI reliably distinguish a new security problem from a duplicate, recurrence, or already-remediated incident?</h1>
+      <p class="lede">Defensive Drift is building a reproducible benchmark and evaluation pipeline for security-drift reconciliation across configuration evidence, historical incidents, scanner findings, logs, and remediation records.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#roadmap">View the 35-day research sprint</a>
+        <a class="button secondary" href="https://github.com/MikeHacksAI/openai-defensive-drift">Open the research repository</a>
+      </div>
+      <div class="integrity-note">
+        <strong>Research integrity:</strong> no performance claims are published until they are measured against the frozen benchmark and linked to reproducible run artifacts.
+      </div>
+    </section>
+
+    <section class="stats shell" aria-label="Project targets">
+      <article><span class="stat-value">50+</span><span class="stat-label">minimum human-adjudicated cases</span></article>
+      <article><span class="stat-value">75</span><span class="stat-label">stretch benchmark target</span></article>
+      <article><span class="stat-value">5</span><span class="stat-label">relationship classes</span></article>
+      <article><span class="stat-value">35</span><span class="stat-label">days to grant-readiness review</span></article>
+    </section>
+
+    <section id="research" class="section shell">
+      <div class="section-heading">
+        <span class="kicker">Research question</span>
+        <h2>Evidence-grounded defensive triage, not autonomous remediation.</h2>
+      </div>
+      <div class="two-col">
+        <div>
+          <p>Modern security evidence is fragmented across configuration snapshots, infrastructure-as-code, scanners, logs, deployment history, prior incidents, and operational notes. The project measures whether AI can reconcile those artifacts without hiding genuinely new or unresolved problems inside a false duplicate.</p>
+          <p>The benchmark requires each method to classify an observation as <code>NEW</code>, <code>DUPLICATE</code>, <code>RECURRENCE</code>, <code>RELATED_BUT_DISTINCT</code>, or <code>INSUFFICIENT_EVIDENCE</code>, while grounding its conclusion in the supplied evidence.</p>
+        </div>
+        <aside class="card">
+          <h3>Headline safety failure</h3>
+          <p>A <strong>dangerous false duplicate</strong> occurs when a non-duplicate condition is incorrectly treated like a resolved or closed duplicate in a way that could suppress needed defensive investigation.</p>
+          <p class="muted">This metric will be reported directly and will not be hidden behind aggregate F1.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="metrics" class="section alt">
+      <div class="shell">
+        <div class="section-heading">
+          <span class="kicker">Frozen measurement contract</span>
+          <h2>Success means learning where AI helps — and where it fails.</h2>
+        </div>
+        <div class="metric-grid">
+          <article class="card"><h3>Duplicate precision & recall</h3><p>Measures both unsafe over-merging and alert-fatigue-causing misses.</p></article>
+          <article class="card"><h3>Novel-issue recall</h3><p>Measures whether new or materially distinct conditions remain visible for review.</p></article>
+          <article class="card"><h3>Dangerous false-duplicate rate</h3><p>Primary security-safety metric for incorrect closure-like classifications.</p></article>
+          <article class="card"><h3>Evidence grounding</h3><p>Checks whether cited evidence actually exists and materially supports the conclusion.</p></article>
+          <article class="card"><h3>Remediation accuracy</h3><p>Tests whether models correctly distinguish detected, mitigated, remediated, recurred, unresolved, and unknown states.</p></article>
+          <article class="card"><h3>Cost, latency & consistency</h3><p>Compares practical operating cost, response time, and repeated-trial stability.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="roadmap" class="section shell">
+      <div class="section-heading">
+        <span class="kicker">35-day pre-grant sprint</span>
+        <h2>Five weekly gates. Every gate ends in evidence.</h2>
+      </div>
+      <div class="timeline">
+        <article class="milestone current">
+          <div class="milestone-meta">M1 · Aug 29–Sep 4</div>
+          <h3>Research design frozen</h3>
+          <p>Freeze taxonomy, ground-truth rules, metrics, sanitization boundaries, and experiment protocol before final model evaluation.</p>
+        </article>
+        <article class="milestone">
+          <div class="milestone-meta">M2 · Sep 5–11</div>
+          <h3>Benchmark v0.1 frozen</h3>
+          <p>Produce at least 50 human-adjudicated, schema-valid cases with a stretch target of 75.</p>
+        </article>
+        <article class="milestone">
+          <div class="milestone-meta">M3 · Sep 12–18</div>
+          <h3>Conventional baselines complete</h3>
+          <p>Run normalized lexical, TF-IDF/similarity, and embedding baselines on the frozen benchmark.</p>
+        </article>
+        <article class="milestone">
+          <div class="milestone-meta">M4 · Sep 19–25</div>
+          <h3>AI evaluation complete</h3>
+          <p>Compare OpenAI and practical open-weight approaches, including repeated high-risk trials, cost, latency, and failure analysis.</p>
+        </article>
+        <article class="milestone">
+          <div class="milestone-meta">M5 · Sep 26–Oct 2</div>
+          <h3>Grant-ready evidence package</h3>
+          <p>Publish methodology, preliminary results, reproducibility artifacts, failure catalog, research brief, and the final grant evidence matrix.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="status" class="section alt">
+      <div class="shell status-layout">
+        <div>
+          <span class="kicker">Current status</span>
+          <h2>Day 1: research design in progress.</h2>
+          <p>The sprint began on August 29, 2026. The immediate P0 work is defining the incident schema and ground-truth schema. Measured benchmark and model results will appear here only after the corresponding methodology gates are complete.</p>
+          <div class="status-links">
+            <a href="https://github.com/MikeHacksAI/openai-defensive-drift/issues/1">M1 tracker</a>
+            <a href="https://github.com/MikeHacksAI/openai-defensive-drift/blob/main/project/35-day-sprint.md">35-day sprint</a>
+            <a href="https://github.com/MikeHacksAI/openai-defensive-drift/blob/main/project/metrics.md">Metrics contract</a>
+            <a href="https://github.com/MikeHacksAI/openai-defensive-drift/blob/main/grant/evidence-matrix.md">Grant evidence matrix</a>
+          </div>
+        </div>
+        <aside class="card progress-card">
+          <div class="progress-topline"><span>Sprint progress</span><strong id="progress-label">Day 1 of 35</strong></div>
+          <div class="progress-track" aria-hidden="true"><div id="progress-bar" class="progress-bar"></div></div>
+          <p id="next-gate" class="muted">Next gate: M1 — Research Design Frozen, September 4.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section shell public-benefit">
+      <div class="section-heading">
+        <span class="kicker">Public benefit</span>
+        <h2>Built to be inspected, reproduced, and challenged.</h2>
+      </div>
+      <p>Defensive Drift is intended to release a safe public benchmark subset, schemas, evaluator code, methodology, measured results, representative failure cases, and reproducibility guidance. Private operational records are not automatically public research data; public artifacts must pass explicit sanitization and confidentiality review.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-layout">
+      <div>
+        <strong>Defensive Drift</strong>
+        <p>Independent research by MikeHacksAI.</p>
+      </div>
+      <div class="footer-note">This is an independent project and is not an official OpenAI website or an endorsement by OpenAI.</div>
+    </div>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
