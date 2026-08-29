@@ -20,7 +20,7 @@ The project optimizes for **quality + speed + measurable evidence**. It does not
 
 - `benchmark/schema/incident-schema.json`
 - `benchmark/schema/ground-truth-schema.json`
-- `benchmark/ADJUDICATION-PROTOCOL.md`
+- `benchmark/ground-truth/ADJUDICATION-PROTOCOL.md`
 - `project/metrics.md`
 - dataset sanitization/public-release rules
 - `experiments/pre-grant/EXPERIMENT-PLAN.md`
@@ -162,7 +162,7 @@ The public site at `https://defensive-drift.mikehacks.ai` is already live and sh
 
 - `research/preliminary-results.md`
 - final figures/tables
-- maintained public research site at `defensive-drift.mikehacks.ai`
+- public research site at `defensive-drift.mikehacks.ai`
 - preliminary-results PDF
 - completed `grant/evidence-matrix.md`
 - grant application draft
