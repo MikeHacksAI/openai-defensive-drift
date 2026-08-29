@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://defensive-drift.mikehacks.ai/schema/ground-truth-schema.json",
+  "title": "Defensive Drift Human Ground Truth",
+  "description": "Human-adjudicated answer key for a Defensive Drift benchmark case.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "relationship",
+    "remediation_state",
+    "severity",
+    "dangerous_if_misclassified_as_duplicate",
+    "evidence_support",
+    "adjudication"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "pattern": "^DD-CASE-[0-9]{4,}$"
+    },
+    "relationship": {
+      "enum": [
+        "NEW",
+        "DUPLICATE",
+        "RECURRENCE",
+        "RELATED_BUT_DISTINCT",
+        "INSUFFICIENT_EVIDENCE"
+      ]
+    },
+    "matched_incident_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "remediation_state": {
+      "enum": [
+        "DETECTED",
+        "ACKNOWLEDGED",
+        "MITIGATED",
+        "PARTIALLY_REMEDIATED",
+        "REMEDIATED",
+        "RECURRED",
+        "UNRESOLVED",
+        "UNKNOWN"
+      ]
+    },
+    "severity": {
+      "enum": [
+        "SEV-1",
+        "SEV-2",
+        "SEV-3",
+        "SEV-4",
+        "INFORMATIONAL",
+        "UNKNOWN"
+      ]
+    },
+    "dangerous_if_misclassified_as_duplicate": {
+      "type": "boolean"
+    },
+    "evidence_support": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "reasoning_summary": {
+      "type": "string"
+    },
+    "adjudication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adjudicator",
+        "adjudicated_at",
+        "confidence",
+        "status"
+      ],
+      "properties": {
+        "adjudicator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adjudicated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "status": {
+          "enum": [
+            "PROVISIONAL",
+            "REVIEWED",
+            "FROZEN"
+          ]
+        },
+        "review_notes": {
+          "type": ["string", "null"]
+        }
+      }
+    }
+  }
+}
