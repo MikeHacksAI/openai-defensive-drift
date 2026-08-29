@@ -2,54 +2,71 @@
 
 Canonical public domain: `https://defensive-drift.mikehacks.ai`
 
-Site source: `site/`
+Canonical source repository: `MikeHacksAI/openai-defensive-drift`
 
-Deployment workflow: `.github/workflows/deploy-pages.yml`
+Canonical branch: `main`
 
-## Current deployment state
+Site source directory: `site/`
 
-GitHub Pages is enabled and configured to use GitHub Actions. Earlier deployment attempts were made before the Pages configuration was fully active and failed. This update intentionally triggers a fresh deployment from the current `main` state after enablement.
+## Deployment architecture
 
-## Hosting
+GitHub `main` is the authoritative source for the public research site.
 
-The initial public research site is deployed with GitHub Pages from the `site/` directory through GitHub Actions.
+Cloudflare Pages is the deployment and hosting platform.
 
-## One-time GitHub Pages setup
+GitHub Actions is intentionally not used for this project.
 
-In `MikeHacksAI/openai-defensive-drift`:
+Deployment flow:
 
-1. Open **Settings**.
-2. Open **Pages** under Code and automation.
-3. Under **Build and deployment → Source**, select **GitHub Actions**.
-4. Under **Custom domain**, enter `defensive-drift.mikehacks.ai` and save.
-5. Enable **Enforce HTTPS** after GitHub provisions the certificate.
+`GitHub main` → `Cloudflare Pages native Git integration` → `defensive-drift.mikehacks.ai`
 
-The repository contains `site/CNAME` for documentation/artifact continuity, but GitHub requires the custom domain to be configured in repository Pages settings (or its Pages API) as well.
+## Cloudflare Pages project setup
 
-## Cloudflare DNS
+Create a Cloudflare Pages project connected directly to the GitHub repository:
 
-Create a DNS record in the `mikehacks.ai` zone:
+- Repository: `MikeHacksAI/openai-defensive-drift`
+- Production branch: `main`
+- Framework preset: `None`
+- Build command: leave blank
+- Build output directory: `site`
 
-- Type: `CNAME`
-- Name: `defensive-drift`
-- Target: `mikehacksai.github.io`
-- Proxy status during initial GitHub validation: `DNS only`
+The site is static HTML/CSS/JavaScript and does not require a build step.
 
-Do not create a second conflicting A/AAAA/CNAME record for `defensive-drift`.
+Cloudflare Pages should automatically deploy future commits to `main` that affect the public site source.
 
-## Verification
+## Custom domain
 
-After GitHub Pages is enabled and DNS has propagated:
+Attach this custom domain to the Cloudflare Pages project:
 
-- confirm the Pages workflow completes successfully;
+`defensive-drift.mikehacks.ai`
+
+The hostname was previously pointed at GitHub Pages during initial setup. Once the Cloudflare Pages custom domain is attached, the existing GitHub-targeted DNS record should be replaced by the DNS configuration Cloudflare Pages creates or requests.
+
+Do not leave multiple conflicting A, AAAA, or CNAME records for `defensive-drift`.
+
+## GitHub Actions policy
+
+Do not add a GitHub Actions workflow for public-site deployment unless the deployment architecture is deliberately changed in the future.
+
+The repository previously contained `.github/workflows/deploy-pages.yml`. It was removed after GitHub Actions jobs were blocked by an account billing lock and the project adopted Cloudflare Pages native Git deployment instead.
+
+This project should not depend on paid GitHub Actions execution for routine site publishing.
+
+## Verification checklist
+
+After the Cloudflare Pages project and custom domain are configured:
+
+- confirm the Cloudflare Pages deployment succeeds;
+- confirm the deployed revision corresponds to the intended GitHub `main` commit;
 - confirm `https://defensive-drift.mikehacks.ai` loads the research landing page;
 - confirm HTTPS is valid;
-- confirm CSS and JavaScript assets load from the custom domain;
+- confirm CSS and JavaScript assets load correctly;
 - confirm GitHub links and milestone links resolve;
-- confirm no unmeasured research results are shown as measured findings.
+- confirm no private/raw research corpus is included in the deployment;
+- confirm no unmeasured research results are presented as measured findings.
 
-## Updating the site
+## Public/private boundary
 
-Any push to `main` that changes `site/**` automatically triggers `.github/workflows/deploy-pages.yml`.
+Only the `site/` directory is intended for public website deployment.
 
-The deployment artifact contains only the `site/` directory, not the private/raw research corpus.
+Private research working material belongs in the separate private companion repository `MikeHacksAI/openai-defensive-drift-private` or other explicitly private canonical sources. Raw drift evidence remains in its existing canonical repository and is not moved into the public site deployment.
