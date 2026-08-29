@@ -25,7 +25,7 @@
       <h1>Can AI reliably distinguish a new security problem from a duplicate, recurrence, or already-remediated incident?</h1>
       <p class="lede">Defensive Drift is building a reproducible benchmark and evaluation pipeline for security-drift reconciliation across configuration evidence, historical incidents, scanner findings, logs, and remediation records.</p>
       <div class="hero-actions">
-        <a class="button primary" href="#roadmap">View the 35-day research sprint</a>
+        <a class="button primary" href="#roadmap">View the accelerated research sprint</a>
         <a class="button secondary" href="https://github.com/MikeHacksAI/openai-defensive-drift">Open the research repository</a>
       </div>
       <div class="integrity-note">
@@ -34,10 +34,10 @@
     </section>
 
     <section class="stats shell" aria-label="Project targets">
-      <article><span class="stat-value">50+</span><span class="stat-label">minimum human-adjudicated cases</span></article>
-      <article><span class="stat-value">75</span><span class="stat-label">stretch benchmark target</span></article>
+      <article><span class="stat-value">100</span><span class="stat-label">v0.1 human-adjudicated case target</span></article>
+      <article><span class="stat-value">150–200</span><span class="stat-label">immediate expansion range when quality supports it</span></article>
       <article><span class="stat-value">5</span><span class="stat-label">relationship classes</span></article>
-      <article><span class="stat-value">35</span><span class="stat-label">days to grant-readiness review</span></article>
+      <article><span class="stat-value">35</span><span class="stat-label">days to latest grant-readiness gate</span></article>
     </section>
 
     <section id="research" class="section shell">
@@ -49,6 +49,7 @@
         <div>
           <p>Modern security evidence is fragmented across configuration snapshots, infrastructure-as-code, scanners, logs, deployment history, prior incidents, and operational notes. The project measures whether AI can reconcile those artifacts without hiding genuinely new or unresolved problems inside a false duplicate.</p>
           <p>The benchmark requires each method to classify an observation as <code>NEW</code>, <code>DUPLICATE</code>, <code>RECURRENCE</code>, <code>RELATED_BUT_DISTINCT</code>, or <code>INSUFFICIENT_EVIDENCE</code>, while grounding its conclusion in the supplied evidence.</p>
+          <p>The historical drift corpus is intentionally heterogeneous. The current <code>raw/confirmed-incidents/</code> stream contains curated ChatGPT drift records, while older and other-model drift evidence may exist elsewhere and may use different templates. Template conformity is not an evidence-validity requirement; normalization happens only in derived private research artifacts.</p>
         </div>
         <aside class="card">
           <h3>Headline safety failure</h3>
@@ -77,32 +78,32 @@
 
     <section id="roadmap" class="section shell">
       <div class="section-heading">
-        <span class="kicker">35-day pre-grant sprint</span>
-        <h2>Five weekly gates. Every gate ends in evidence.</h2>
+        <span class="kicker">Accelerated 35-day pre-grant sprint</span>
+        <h2>Five milestone gates. Dates are deadlines, not pacing targets.</h2>
       </div>
       <div class="timeline">
-        <article class="milestone current">
-          <div class="milestone-meta">M1 · Aug 29–Sep 4</div>
+        <article class="milestone">
+          <div class="milestone-meta">M1 · COMPLETE · latest Sep 4</div>
           <h3>Research design frozen</h3>
-          <p>Freeze taxonomy, ground-truth rules, metrics, sanitization boundaries, and experiment protocol before final model evaluation.</p>
+          <p>Taxonomy, ground-truth rules, metrics, sanitization boundaries, and experiment protocol were frozen before final benchmark/model evaluation.</p>
         </article>
-        <article class="milestone">
-          <div class="milestone-meta">M2 · Sep 5–11</div>
+        <article class="milestone current">
+          <div class="milestone-meta">M2 · ACTIVE · latest Sep 11</div>
           <h3>Benchmark v0.1 frozen</h3>
-          <p>Produce at least 50 human-adjudicated, schema-valid cases with a stretch target of 75.</p>
+          <p>Discover the heterogeneous cross-model evidence corpus, preserve source provenance, normalize only in the private workspace, and build a 100-case human-adjudicated v0.1 benchmark with a 150–200 expansion range when scientifically useful.</p>
         </article>
         <article class="milestone">
-          <div class="milestone-meta">M3 · Sep 12–18</div>
+          <div class="milestone-meta">M3 · latest Sep 18</div>
           <h3>Conventional baselines complete</h3>
           <p>Run normalized lexical, TF-IDF/similarity, and embedding baselines on the frozen benchmark.</p>
         </article>
         <article class="milestone">
-          <div class="milestone-meta">M4 · Sep 19–25</div>
+          <div class="milestone-meta">M4 · latest Sep 25</div>
           <h3>AI evaluation complete</h3>
           <p>Compare OpenAI and practical open-weight approaches, including repeated high-risk trials, cost, latency, and failure analysis.</p>
         </article>
         <article class="milestone">
-          <div class="milestone-meta">M5 · Sep 26–Oct 2</div>
+          <div class="milestone-meta">M5 · latest Oct 2</div>
           <h3>Grant-ready evidence package</h3>
           <p>Publish methodology, preliminary results, reproducibility artifacts, failure catalog, research brief, and the final grant evidence matrix.</p>
         </article>
@@ -113,19 +114,19 @@
       <div class="shell status-layout">
         <div>
           <span class="kicker">Current status</span>
-          <h2>Day 1: research design in progress.</h2>
-          <p>The sprint began on August 29, 2026. The immediate P0 work is defining the incident schema and ground-truth schema. Measured benchmark and model results will appear here only after the corresponding methodology gates are complete.</p>
+          <h2>M2: cross-model benchmark construction underway.</h2>
+          <p>M1 is complete. The active work is discovering and inventorying valid drift evidence across models, repositories, storage conventions, and historical template families; preserving provenance; and preparing derived private records for human adjudication. Measured benchmark and model results will appear here only after the corresponding methodology gates are complete.</p>
           <div class="status-links">
-            <a href="https://github.com/MikeHacksAI/openai-defensive-drift/issues/1">M1 tracker</a>
+            <a href="https://github.com/MikeHacksAI/openai-defensive-drift/issues/2">M2 tracker</a>
             <a href="https://github.com/MikeHacksAI/openai-defensive-drift/blob/main/project/35-day-sprint.md">35-day sprint</a>
             <a href="https://github.com/MikeHacksAI/openai-defensive-drift/blob/main/project/metrics.md">Metrics contract</a>
             <a href="https://github.com/MikeHacksAI/openai-defensive-drift/blob/main/grant/evidence-matrix.md">Grant evidence matrix</a>
           </div>
         </div>
         <aside class="card progress-card">
-          <div class="progress-topline"><span>Sprint progress</span><strong id="progress-label">Day 1 of 35</strong></div>
+          <div class="progress-topline"><span>Sprint clock</span><strong id="progress-label">Day 1 of 35</strong></div>
           <div class="progress-track" aria-hidden="true"><div id="progress-bar" class="progress-bar"></div></div>
-          <p id="next-gate" class="muted">Next gate: M1 — Research Design Frozen, September 4.</p>
+          <p id="next-gate" class="muted">Active gate: M2 — Benchmark v0.1 Frozen. Latest-acceptable completion: September 11.</p>
         </aside>
       </div>
     </section>
