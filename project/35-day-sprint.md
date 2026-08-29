@@ -61,7 +61,7 @@ Required:
 
 - `benchmark/schema/incident-schema.json`
 - `benchmark/schema/ground-truth-schema.json`
-- `benchmark/ADJUDICATION-PROTOCOL.md`
+- `benchmark/ground-truth/ADJUDICATION-PROTOCOL.md`
 - `project/metrics.md`
 - sanitization/public-release rules
 - `experiments/pre-grant/EXPERIMENT-PLAN.md`
