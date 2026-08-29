@@ -8,6 +8,19 @@ Canonical branch: `main`
 
 Site source directory: `site/`
 
+## Branch policy
+
+Defensive Drift is a **single-branch project**.
+
+- `main` is the sole normal development, research, documentation, and deployment branch.
+- Do not create feature, staging, repair, temporary, experiment, deployment, or assistant-specific branches for routine work.
+- Local clones should remain checked out on `main` and reconcile directly with `origin/main`.
+- Before state-changing local work, verify the local branch is `main`, inspect the worktree, fetch `origin`, and fast-forward from `origin/main` when the tree is clean.
+- Do not use branch churn as a workaround for local ahead/behind state. Resolve and explain the actual Git state instead.
+- A second branch is permitted only when a platform or safety requirement makes it genuinely unavoidable. That exception must be explicit, temporary, documented before creation, and removed after the requirement ends.
+
+This policy applies to the public repository and should also be followed by the private Defensive Drift companion repository.
+
 ## Deployment architecture
 
 GitHub `main` is the authoritative source for the public research site.
