@@ -120,23 +120,40 @@ Every final benchmark case must have human ground truth and must pass the projec
 
 ---
 
+## Historical evidence corpus
+
+The drift corpus is **heterogeneous and cross-model**.
+
+`MikeHacksAI/mikehacksai-drift-records/raw/confirmed-incidents/` is the current curated **ChatGPT drift stream**. It is not the complete historical evidence universe.
+
+Valid drift evidence may also remain in legacy `drifts/`, `inbox/`, older top-level records, and other MikeHacksAI repositories where Claude, Gemini, other AI systems, or earlier workflows originally preserved drift records.
+
+Historical templates have changed over time. **Template conformity is not an eligibility requirement.** A legacy record remains valid evidence even if it does not match the current ChatGPT drift template.
+
+Source AI/model, repository, path, commit/blob/hash provenance, historical template family, and parser confidence are preserved whenever evidence supports them. Unknown provenance stays `UNKNOWN`; it is not guessed.
+
+---
+
 ## Public/private research boundary
 
 Defensive Drift deliberately separates source evidence from public research artifacts.
 
-### Canonical raw evidence
+### Source evidence
 
-Operational source evidence remains in its existing canonical private location and is treated as immutable input.
+Operational drift evidence remains in its original source repository and path and is treated as immutable input.
 
-Original raw records are **not moved, renamed, rewritten, or deleted** by this project.
+Original records are **not moved, renamed, rewritten, normalized in place, or deleted** by this project.
 
 ### Private research workspace
 
-Private derived work may include:
+All generated indexes and derived research work belong in `MikeHacksAI/openai-defensive-drift-private`, including:
 
-- source indexes;
+- cross-repository source indexes;
 - candidate-case references;
+- normalized derived representations;
+- model/source provenance metadata;
 - adjudication working notes;
+- deduplication and relationship analysis;
 - sanitization staging;
 - rejected or non-public cases;
 - private experiment material.
@@ -147,7 +164,7 @@ This repository contains only material intended for public research distribution
 
 The intended flow is:
 
-`canonical raw source → derived private working representation → human adjudication → sanitization → public-release review → approved public artifact`
+`immutable source record → private reference/index → derived private representation → human adjudication → sanitization → public-release review → approved public artifact`
 
 See [`datasets/SANITIZATION-RULES.md`](datasets/SANITIZATION-RULES.md).
 
@@ -186,7 +203,7 @@ datasets/
   SANITIZATION-RULES.md       Public/private release rules
 
 experiments/
-  pre-grant/                  Frozen experiment plan and run manifest
+  pre-grant/                  Experiment plans, manifests, and M2 discovery tooling
 
 evaluator/                    Evaluation implementation
 research/                     Research notes and findings
@@ -205,6 +222,7 @@ site/                         Public research website source
 - [`benchmark/ground-truth/ADJUDICATION-PROTOCOL.md`](benchmark/ground-truth/ADJUDICATION-PROTOCOL.md) — classification and freeze rules
 - [`project/metrics.md`](project/metrics.md) — evaluation metric contract
 - [`experiments/pre-grant/EXPERIMENT-PLAN.md`](experiments/pre-grant/EXPERIMENT-PLAN.md) — experiment sequence and integrity requirements
+- [`experiments/pre-grant/m2-cross-model-discovery.ps1`](experiments/pre-grant/m2-cross-model-discovery.ps1) — read-only cross-model/cross-repository source discovery
 - [`experiments/pre-grant/run-manifest-schema.json`](experiments/pre-grant/run-manifest-schema.json) — reproducibility metadata
 - [`datasets/SANITIZATION-RULES.md`](datasets/SANITIZATION-RULES.md) — public/private data handling
 - [`project/milestones.md`](project/milestones.md) — research milestone gates
@@ -228,11 +246,12 @@ site/                         Public research website source
 - sanitization rules committed;
 - experiment plan committed;
 - run-manifest schema committed;
-- metric contract committed.
+- metric contract committed;
+- cross-model/multi-template source-evidence rules documented.
 
 ### In progress
 
-- M2 candidate-case inventory;
+- M2 cross-model and cross-repository candidate discovery;
 - benchmark construction and human adjudication;
 - schema validation;
 - class-balance review;
@@ -247,6 +266,18 @@ site/                         Public research website source
 - publish preliminary results and a reviewer-facing research brief.
 
 **No model-performance claims are published here until they have actually been measured.**
+
+---
+
+## Single-branch project policy
+
+Defensive Drift is intentionally maintained as a **single-branch project**.
+
+- `main` is the sole normal development, research, documentation, and deployment branch.
+- Do not create feature, staging, repair, temporary, experiment, deployment, or assistant-specific branches for routine work.
+- Local clones stay on `main` and reconcile directly with `origin/main`.
+- Local ahead/behind state must be explained and reconciled directly rather than hidden behind new branches.
+- A second branch is allowed only when a platform or safety requirement makes it genuinely unavoidable; any such exception must be explicit, temporary, documented before creation, and removed afterward.
 
 ---
 
