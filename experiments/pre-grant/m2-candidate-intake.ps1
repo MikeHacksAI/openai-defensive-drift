@@ -129,8 +129,8 @@ function Extract-Field {
 
     $Escaped = [regex]::Escape($Field)
     $Patterns = @(
-        "(?mi)^\s*(?:[-*]\s*)?\*\*$Escaped:\*\*\s*(.+?)\s*$",
-        "(?mi)^\s*(?:[-*]\s*)?$Escaped:\s*(.+?)\s*$"
+        "(?mi)^\s*(?:[-*]\s*)?\*\*${Escaped}:\*\*\s*(.+?)\s*$",
+        "(?mi)^\s*(?:[-*]\s*)?${Escaped}:\s*(.+?)\s*$"
     )
 
     foreach ($Pattern in $Patterns) {
