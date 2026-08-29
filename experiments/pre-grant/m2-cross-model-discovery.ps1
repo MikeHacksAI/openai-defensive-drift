@@ -248,28 +248,73 @@ function Get-DiscoveryAssessment {
 function Get-TrackedMarkdownFiles {
     param([string]$RepoPath)
 
-    $Files = @(& git -C $RepoPath ls-files -- '*.md')
-    if ($LASTEXITCODE -ne 0) {
+    if (-not (Test-Path -LiteralPath $RepoPath -PathType Container)) {
+        throw ('Repository path not found: {0}' -f $RepoPath)
+    }
+
+    $GitCommand = Get-Command git.exe -ErrorAction Stop | Select-Object -First 1
+    $StartInfo = New-Object System.Diagnostics.ProcessStartInfo
+    $StartInfo.FileName = $GitCommand.Source
+    $StartInfo.WorkingDirectory = $RepoPath
+    $StartInfo.Arguments = 'ls-files -z -- "*.md"'
+    $StartInfo.UseShellExecute = $false
+    $StartInfo.RedirectStandardOutput = $true
+    $StartInfo.RedirectStandardError = $true
+    $StartInfo.CreateNoWindow = $true
+
+    $Utf8 = New-Object System.Text.UTF8Encoding($false)
+    try {
+        $StartInfo.StandardOutputEncoding = $Utf8
+        $StartInfo.StandardErrorEncoding = $Utf8
+    }
+    catch {
+        # Encoding properties are not available on every legacy runtime. Git for Windows still emits the path stream.
+    }
+
+    $Process = New-Object System.Diagnostics.Process
+    $Process.StartInfo = $StartInfo
+
+    if (-not $Process.Start()) {
+        throw ('Unable to start git ls-files for {0}' -f $RepoPath)
+    }
+
+    $StdOut = $Process.StandardOutput.ReadToEnd()
+    $StdErr = $Process.StandardError.ReadToEnd()
+    $Process.WaitForExit()
+    $ExitCode = $Process.ExitCode
+    $Process.Dispose()
+
+    if ($ExitCode -ne 0) {
+        throw ('git ls-files -z failed for {0}: {1}' -f $RepoPath, $StdErr.Trim())
+    }
+
+    if ([string]::IsNullOrEmpty($StdOut)) {
         return @()
     }
 
-    return @($Files | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+    $Paths = $StdOut.Split(
+        [char[]]@([char]0),
+        [System.StringSplitOptions]::RemoveEmptyEntries
+    )
+
+    return @($Paths)
 }
 
 Write-Stage 'DEFENSIVE DRIFT - M2 CROSS-MODEL EVIDENCE DISCOVERY'
 Write-Host 'Mode: READ-ONLY against source repositories'
 Write-Host 'Writes: openai-defensive-drift-private only'
+Write-Host 'Git pathname mode: ls-files -z / NUL-delimited machine-safe output'
 
-if (-not (Test-Path $GitRoot)) {
+if (-not (Test-Path -LiteralPath $GitRoot -PathType Container)) {
     throw ('Git root not found: {0}' -f $GitRoot)
 }
 
-if (-not (Test-Path (Join-Path $PrivateRepo '.git'))) {
+if (-not (Test-Path -LiteralPath (Join-Path $PrivateRepo '.git') -PathType Container)) {
     throw ('Private Defensive Drift clone not found: {0}' -f $PrivateRepo)
 }
 
 Write-Host ''
-Write-Host '[1/6] Verify private workspace...'
+Write-Host '[1/7] Verify private workspace...'
 $PrivateDirty = @(& git -C $PrivateRepo status --porcelain)
 Assert-ExitCode 'Read private workspace status'
 if ($PrivateDirty.Count -gt 0) {
@@ -282,10 +327,10 @@ if ($PrivateDirty.Count -gt 0) {
 Assert-ExitCode 'Sync private workspace'
 
 Write-Host ''
-Write-Host '[2/6] Discover local Git repositories...'
+Write-Host '[2/7] Discover local Git repositories...'
 $Repos = @(
-    Get-ChildItem -Path $GitRoot -Directory |
-    Where-Object { Test-Path (Join-Path $_.FullName '.git') } |
+    Get-ChildItem -LiteralPath $GitRoot -Directory |
+    Where-Object { Test-Path -LiteralPath (Join-Path $_.FullName '.git') -PathType Container } |
     Sort-Object Name
 )
 
@@ -307,7 +352,60 @@ $ReposScanned = 0
 $MarkdownFilesScanned = 0
 
 Write-Host ''
-Write-Host '[3/6] Scan tracked Markdown for drift evidence...'
+Write-Host '[3/7] Runtime-preflight Git pathname handling...'
+$PreflightRepo = $Repos |
+    Where-Object { $_.Name -eq 'ai-collaboration-governance' } |
+    Select-Object -First 1
+
+if ($null -eq $PreflightRepo) {
+    throw 'Required pathname preflight repository ai-collaboration-governance was not found under C:\GitHub.'
+}
+
+$PreflightPaths = @(Get-TrackedMarkdownFiles -RepoPath $PreflightRepo.FullName)
+if ($PreflightPaths.Count -eq 0) {
+    throw 'Pathname preflight returned zero Markdown paths; refusing full discovery.'
+}
+
+$PreflightIllegal = [System.Collections.Generic.List[string]]::new()
+$PreflightExisting = 0
+$PreflightMissing = 0
+
+foreach ($RelativePath in $PreflightPaths) {
+    if ($RelativePath.StartsWith('"') -or $RelativePath.EndsWith('"')) {
+        $PreflightIllegal.Add(('Git-quoted path leaked through -z parser: {0}' -f $RelativePath))
+        continue
+    }
+
+    $FullPath = Join-Path $PreflightRepo.FullName ($RelativePath -replace '/', '\')
+
+    try {
+        if (Test-Path -LiteralPath $FullPath -PathType Leaf) {
+            $PreflightExisting++
+        }
+        else {
+            $PreflightMissing++
+        }
+    }
+    catch {
+        $PreflightIllegal.Add(('{0} :: {1}' -f $RelativePath, $_.Exception.Message))
+    }
+}
+
+if ($PreflightIllegal.Count -gt 0) {
+    Write-Host 'PATHNAME PREFLIGHT FAILURES:'
+    $PreflightIllegal | ForEach-Object { Write-Host ('  ' + $_) }
+    throw 'Machine-safe Git pathname runtime preflight failed.'
+}
+
+Write-Host ('  Repository: {0}' -f $PreflightRepo.Name)
+Write-Host ('  Markdown paths decoded: {0}' -f $PreflightPaths.Count)
+Write-Host ('  Existing working-tree paths: {0}' -f $PreflightExisting)
+Write-Host ('  Missing tracked paths: {0}' -f $PreflightMissing)
+Write-Host '  Git quoting artifacts: 0'
+Write-Host '  PATHNAME PREFLIGHT: PASS'
+
+Write-Host ''
+Write-Host '[4/7] Scan tracked Markdown for drift evidence...'
 
 foreach ($Repo in $Repos) {
     if ($ExcludedRepositories -contains $Repo.Name) {
@@ -336,7 +434,7 @@ foreach ($Repo in $Repos) {
     foreach ($RelativePath in $TrackedMarkdown) {
         $MarkdownFilesScanned++
         $FullPath = Join-Path $Repo.FullName ($RelativePath -replace '/', '\')
-        if (-not (Test-Path $FullPath -PathType Leaf)) {
+        if (-not (Test-Path -LiteralPath $FullPath -PathType Leaf)) {
             continue
         }
 
@@ -355,7 +453,7 @@ foreach ($Repo in $Repos) {
         $CandidateNumber++
         $NormalizedPath = $RelativePath.Replace('\', '/')
         $BlobSha = Get-GitValue -RepoPath $Repo.FullName -Arguments @('rev-parse', ('HEAD:{0}' -f $NormalizedPath))
-        $Sha256 = (Get-FileHash -Path $FullPath -Algorithm SHA256).Hash.ToLowerInvariant()
+        $Sha256 = (Get-FileHash -LiteralPath $FullPath -Algorithm SHA256).Hash.ToLowerInvariant()
         $Model = Get-SourceModel -RepositoryName $Repo.Name -RelativePath $NormalizedPath -Text $Text
         $TemplateFamily = Get-TemplateFamily -RepositoryName $Repo.Name -RelativePath $NormalizedPath -Text $Text
 
@@ -371,7 +469,7 @@ foreach ($Repo in $Repos) {
             source_relative_path = $NormalizedPath
             source_git_blob_sha = $BlobSha
             source_sha256 = $Sha256
-            source_bytes = (Get-Item $FullPath).Length
+            source_bytes = (Get-Item -LiteralPath $FullPath).Length
             source_worktree_dirty = -not [string]::IsNullOrWhiteSpace($StatusBefore)
             source_model = $Model.source_model
             model_confidence = $Model.model_confidence
@@ -397,7 +495,7 @@ Write-Host ('  Markdown files scanned: {0}' -f $MarkdownFilesScanned)
 Write-Host ('  Drift candidates discovered: {0}' -f $Candidates.Count)
 
 Write-Host ''
-Write-Host '[4/6] Verify every source repository remained unchanged...'
+Write-Host '[5/7] Verify every source repository remained unchanged...'
 foreach ($Snapshot in $SourceSnapshots) {
     $HeadAfter = Get-GitValue -RepoPath $Snapshot.path -Arguments @('rev-parse', 'HEAD')
     $StatusAfter = ((& git -C $Snapshot.path status --porcelain) -join "`n")
@@ -414,7 +512,7 @@ foreach ($Snapshot in $SourceSnapshots) {
 Write-Host '  SOURCE INTEGRITY CHECK: PASS'
 
 Write-Host ''
-Write-Host '[5/6] Write cross-model inventory to private workspace...'
+Write-Host '[6/7] Write cross-model inventory to private workspace...'
 $OutputRoot = Join-Path $PrivateRepo 'source-index\cross-model'
 New-Item -ItemType Directory -Force -Path $OutputRoot | Out-Null
 
@@ -472,16 +570,17 @@ $Lines.Add('- `mikehacksai-drift-records/raw/confirmed-incidents/` is the curate
 $Lines.Add('- Historical records from other AI models and older storage conventions remain valid candidates.')
 $Lines.Add('- Template mismatch does not invalidate evidence.')
 $Lines.Add('- Unknown model provenance remains `UNKNOWN`; it is never guessed.')
+$Lines.Add('- Git path discovery uses `git ls-files -z`; human-readable quoted path output is not used as filesystem input.')
 $Lines.Add('- No source record was moved, renamed, rewritten, deleted, normalized in place, or committed during discovery.')
 $Lines.Add('- All normalization and adjudication occurs as derived material in the private Defensive Drift workspace.')
 
 [System.IO.File]::WriteAllLines($SummaryPath, $Lines, [System.Text.UTF8Encoding]::new($false))
 
-$InventoryHash = (Get-FileHash -Path $CsvPath -Algorithm SHA256).Hash.ToLowerInvariant()
+$InventoryHash = (Get-FileHash -LiteralPath $CsvPath -Algorithm SHA256).Hash.ToLowerInvariant()
 Write-Host ('  Inventory SHA256: {0}' -f $InventoryHash)
 
 Write-Host ''
-Write-Host '[6/6] Commit private discovery artifacts...'
+Write-Host '[7/7] Commit private discovery artifacts...'
 & git -C $PrivateRepo add 'source-index/cross-model'
 Assert-ExitCode 'Stage cross-model discovery artifacts'
 
