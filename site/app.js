@@ -9,17 +9,7 @@
 
   const label = document.getElementById('progress-label');
   const bar = document.getElementById('progress-bar');
-  const gate = document.getElementById('next-gate');
 
   if (label) label.textContent = `Day ${elapsedDays} of ${totalDays}`;
   if (bar) bar.style.width = `${percent}%`;
-
-  if (gate) {
-    if (now < new Date('2026-09-05T00:00:00-05:00')) gate.textContent = 'Next gate: M1 — Research Design Frozen, September 4.';
-    else if (now < new Date('2026-09-12T00:00:00-05:00')) gate.textContent = 'Next gate: M2 — Benchmark v0.1 Frozen, September 11.';
-    else if (now < new Date('2026-09-19T00:00:00-05:00')) gate.textContent = 'Next gate: M3 — Conventional Baselines Complete, September 18.';
-    else if (now < new Date('2026-09-26T00:00:00-05:00')) gate.textContent = 'Next gate: M4 — AI Evaluation Complete, September 25.';
-    else if (now <= end) gate.textContent = 'Next gate: M5 — Grant Ready, October 2.';
-    else gate.textContent = 'The 35-day pre-grant sprint has reached its grant-readiness review date.';
-  }
 })();
