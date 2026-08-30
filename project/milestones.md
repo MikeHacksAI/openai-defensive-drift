@@ -60,6 +60,8 @@ M2 may not begin benchmark candidate selection or freeze from a partial convenie
 
 The detailed rationale, candidate-discovery heuristic, candidate-versus-ground-truth distinction, provenance model, and current M2 execution checkpoint are documented in [`project/m2-corpus-discovery-and-candidate-selection.md`](m2-corpus-discovery-and-candidate-selection.md).
 
+The completed gate review and explicit v0.1 evidence-universe scope are documented in [`project/m2-corpus-completeness-gate-review-2026-08-30.md`](m2-corpus-completeness-gate-review-2026-08-30.md).
+
 The evidence universe must be explicitly inventoried before case selection:
 
 1. **GitHub-wide tracked evidence:** enumerate the authoritative MikeHacksAI repository estate and inspect in-scope tracked Markdown evidence across repositories, not only repositories that happen to be cloned locally.
@@ -95,11 +97,11 @@ Meaningful representation across:
 
 ### Exit criteria
 
-- [ ] Authoritative GitHub repository universe inventoried
-- [ ] GitHub-wide tracked evidence coverage complete or every exclusion/blocker explicitly documented
-- [ ] Local untracked Markdown evidence audited across available local source worktrees
-- [ ] Combined tracked + untracked candidate inventory produced with provenance class preserved
-- [ ] No benchmark candidate selection/freeze occurred from a knowingly partial corpus
+- [x] Authoritative GitHub repository universe inventoried
+- [x] GitHub-wide tracked evidence coverage complete or every exclusion/blocker explicitly documented
+- [x] Local untracked Markdown evidence audited across available local source worktrees
+- [x] Combined tracked + untracked candidate inventory produced with provenance class preserved
+- [x] No benchmark candidate selection/freeze occurred from a knowingly partial corpus
 - [ ] 100-case v0.1 operational target reached or a documented scientific reason supports freezing at a different count
 - [ ] 100% human-adjudicated
 - [ ] 100% schema-valid
