@@ -42,3 +42,17 @@ A public checkpoint is not complete until:
 4. the rendered public site matches the canonical status artifact.
 
 The static HTML should retain sensible fallback copy so a transient JSON fetch failure does not blank the page, but `site/status.json` is authoritative for current public status.
+
+## Live verification checkpoint — 2026-08-30
+
+The first end-to-end propagation check passed after the status architecture was introduced.
+
+Verified on the deployed public site:
+
+- headline rendered as `M2: 100-case human suitability screening complete.`;
+- detail text reported 100/100 core packets reviewed, 78 suitable, 22 unsuitable, and 0 requiring more context;
+- the next-gate card rendered the current M2 replacement/context/relationship-adjudication gate;
+- the sprint clock continued to render independently; and
+- no private evidence or case-level content was exposed.
+
+This confirms the intended propagation path is operational for the current checkpoint: `site/status.json` → `site/app.js` → Cloudflare Pages → public website.
