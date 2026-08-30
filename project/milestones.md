@@ -54,6 +54,21 @@ As soon as these artifacts are complete and internally consistent, M2 starts imm
 
 These are working research targets, not a floor/ceiling game. Freeze decisions are based on scientific usefulness, coverage, validation, and readiness for reproducible comparison.
 
+### Corpus completeness gate
+
+M2 may not begin benchmark candidate selection or freeze from a partial convenience sample.
+
+The evidence universe must be explicitly inventoried before case selection:
+
+1. **GitHub-wide tracked evidence:** enumerate the authoritative MikeHacksAI repository estate and inspect in-scope tracked Markdown evidence across repositories, not only repositories that happen to be cloned locally.
+2. **Local untracked evidence:** inspect untracked Markdown under local Git worktrees because historically valid drift records may exist before commit or outside the current tracked set.
+3. **Provenance separation:** tracked and untracked records remain distinguishable. Tracked records preserve repository, branch/ref, commit, blob/path, and content hash where available. Untracked records preserve repository/worktree, relative path, content hash, size, and filesystem provenance while explicitly recording that no Git commit/blob provenance exists.
+4. **Explicit exclusions:** archived, empty, unavailable, intentionally excluded, or technically blocked repositories must be listed with reasons. Silence is not an exclusion policy.
+5. **Coverage matrix:** the private research workspace must contain a machine-readable repository/evidence coverage report showing what was scanned, what was not, and why.
+6. **No source mutation:** corpus discovery is read-only against source repositories and worktrees. Generated indexes, normalization, adjudication, deduplication analysis, and derived benchmark material belong only in `openai-defensive-drift-private`.
+
+A successful narrow scan is evidence of progress, not proof that corpus discovery is complete.
+
 ### Required class coverage
 
 Meaningful representation across:
@@ -66,6 +81,9 @@ Meaningful representation across:
 
 ### Required outputs
 
+- authoritative repository-universe manifest
+- repository/evidence coverage matrix
+- combined provenance-aware tracked + untracked candidate inventory
 - benchmark manifest
 - case folders/artifacts
 - ground-truth records
@@ -75,6 +93,11 @@ Meaningful representation across:
 
 ### Exit criteria
 
+- [ ] Authoritative GitHub repository universe inventoried
+- [ ] GitHub-wide tracked evidence coverage complete or every exclusion/blocker explicitly documented
+- [ ] Local untracked Markdown evidence audited across available local source worktrees
+- [ ] Combined tracked + untracked candidate inventory produced with provenance class preserved
+- [ ] No benchmark candidate selection/freeze occurred from a knowingly partial corpus
 - [ ] 100-case v0.1 operational target reached or a documented scientific reason supports freezing at a different count
 - [ ] 100% human-adjudicated
 - [ ] 100% schema-valid
@@ -85,7 +108,7 @@ Meaningful representation across:
 
 ### Source-evidence rule
 
-Canonical raw drift evidence is immutable. Benchmark development uses derived copies/references only. No original drift record is moved, renamed, rewritten, or deleted.
+Canonical raw drift evidence is immutable. Benchmark development uses derived copies/references only. No original drift record is moved, renamed, rewritten, or deleted. The evidence universe is not limited to `raw/confirmed-incidents/`; valid historical drift evidence may exist across repositories, `/inbox` locations, other AI-model collections, and older template families.
 
 ---
 
@@ -189,7 +212,9 @@ The public site at `https://defensive-drift.mikehacks.ai` is already live and sh
 2. Close milestones as soon as acceptance criteria are demonstrably satisfied.
 3. Begin the next milestone immediately after the previous gate closes.
 4. Parallelize work only when it cannot contaminate frozen methodology or ground truth.
-5. Never trade case quality, data safety, or methodological integrity for raw speed.
+5. Never trade case quality, data safety, methodological integrity, or corpus completeness for raw speed.
 6. Never stop merely because a prior minimum count has been reached.
 7. All quantitative claims must be traceable to a benchmark version, run ID, and Git commit.
 8. If a milestone threatens the latest-acceptable date, cut optional scope before moving the date.
+9. Grant-critical evidence-completeness work already identified as in scope must not be deferred as “later” without a concrete blocker or explicit operator approval.
+10. A successful script run is not equivalent to a satisfied milestone gate; the gate must be evaluated against all documented acceptance criteria.
