@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-08-30T16:46:23-05:00",
+  "milestone": "M2",
+  "milestone_state": "ACTIVE",
+  "milestone_title": "Benchmark v0.1 frozen",
+  "phase": "HUMAN_SUITABILITY_SCREENING_COMPLETE",
+  "headline": "M2: 100-case human suitability screening complete.",
+  "detail": "Human suitability review is complete for all 100 core evidence packets. Of those records, 78 were marked suitable and 22 unsuitable, with none requiring more context. M2 now advances to replacement of unsuitable records where needed, historical-context assembly, and human relationship adjudication before Benchmark v0.1 is frozen.",
+  "core_review": {
+    "target": 100,
+    "reviewed": 100,
+    "suitable": 78,
+    "unsuitable": 22,
+    "needs_more_context": 0
+  },
+  "candidate_universe": 1914,
+  "next_gate": "Replace unsuitable records as needed, assemble historical context, then complete human relationship adjudication for the v0.1 benchmark.",
+  "latest_acceptable_completion": "2026-09-11",
+  "ground_truth_relationship_labels_assigned": false,
+  "measured_model_results_published": false,
+  "public_private_boundary": "Only aggregate research-progress counts are public. Private evidence packets and raw operational records are not exposed by this status artifact."
+}
