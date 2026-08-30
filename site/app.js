@@ -13,25 +13,25 @@
   if (label) label.textContent = `Day ${elapsedDays} of ${totalDays}`;
   if (bar) bar.style.width = `${percent}%`;
 
-  const setText = (id, value) => {
-    const element = document.getElementById(id);
+  const setText = (selector, value) => {
+    const element = document.querySelector(selector);
     if (element && value !== undefined && value !== null) {
       element.textContent = String(value);
     }
   };
 
   const renderStatus = (status) => {
-    setText('status-headline', status.headline);
-    setText('status-detail', status.detail);
-    setText('next-gate', `Active gate: ${status.milestone} — ${status.next_gate} Latest-acceptable completion: ${status.latest_acceptable_completion}.`);
+    setText('#status h2', status.headline);
+    setText('#status .status-layout > div > p', status.detail);
+    setText(
+      '#next-gate',
+      `Active gate: ${status.milestone} — ${status.next_gate} Latest-acceptable completion: ${status.latest_acceptable_completion}.`
+    );
 
     if (status.core_review) {
-      setText('review-progress', `${status.core_review.reviewed}/${status.core_review.target}`);
-      setText('review-progress-label', 'core evidence packets human-reviewed');
-      setText('review-breakdown', `${status.core_review.suitable} suitable · ${status.core_review.unsuitable} unsuitable · ${status.core_review.needs_more_context} needs more context`);
+      setText('.stats article:first-child .stat-value', `${status.core_review.reviewed}/${status.core_review.target}`);
+      setText('.stats article:first-child .stat-label', 'core evidence packets human-reviewed');
     }
-
-    setText('status-updated', `Status source updated ${status.updated_at}`);
   };
 
   fetch('./status.json', { cache: 'no-store' })
