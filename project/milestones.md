@@ -58,6 +58,8 @@ These are working research targets, not a floor/ceiling game. Freeze decisions a
 
 M2 may not begin benchmark candidate selection or freeze from a partial convenience sample.
 
+The detailed rationale, candidate-discovery heuristic, candidate-versus-ground-truth distinction, provenance model, and current M2 execution checkpoint are documented in [`project/m2-corpus-discovery-and-candidate-selection.md`](m2-corpus-discovery-and-candidate-selection.md).
+
 The evidence universe must be explicitly inventoried before case selection:
 
 1. **GitHub-wide tracked evidence:** enumerate the authoritative MikeHacksAI repository estate and inspect in-scope tracked Markdown evidence across repositories, not only repositories that happen to be cloned locally.
