@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-31T00:23:00-05:00",
+  "updated_at": "2026-08-31T00:37:49-05:00",
   "milestone": "M2",
   "milestone_state": "ACTIVE",
   "milestone_title": "Benchmark v0.1 frozen",
-  "phase": "SUITABLE_POOL_ASSEMBLED",
-  "headline": "M2: 100 suitable benchmark observations assembled.",
-  "detail": "Human suitability review is complete for the original 100 core evidence packets and the 22-case replacement set. The original pass produced 78 suitable observations; all 22 replacement records were also marked suitable, producing a 100-observation suitable pool. M2 now advances to historical-context assembly and human relationship adjudication before Benchmark v0.1 is frozen.",
+  "phase": "HISTORICAL_CONTEXT_INDEX_COMPLETE",
+  "headline": "M2: historical-context retrieval complete for 100 cases.",
+  "detail": "The 100-observation suitable benchmark pool is assembled and deterministic historical-context retrieval is complete for every case. The index contains 1,952 retrieved context rows across all 100 observations; 68 cases have time-level timestamp evidence, 5 have date-only evidence, and 27 have unknown timestamp precision. No relationship ground-truth labels have been assigned. M2 now advances to materializing the retrieved historical evidence and human context-sufficiency review before relationship adjudication.",
   "core_review": {
     "target": 100,
     "reviewed": 100,
@@ -28,10 +28,18 @@
     "target": 100,
     "assembled": 100
   },
+  "historical_context": {
+    "cases": 100,
+    "cases_with_retrieved_candidates": 100,
+    "retrieval_rows": 1952,
+    "cases_with_time_available": 68,
+    "cases_with_date_only": 5,
+    "cases_with_unknown_timestamp": 27
+  },
   "candidate_universe": 1914,
-  "next_gate": "Assemble historical context for the 100 suitable observations and complete human relationship adjudication before Benchmark v0.1 freeze.",
+  "next_gate": "Materialize retrieved historical evidence for the 100 suitable observations and complete human context-sufficiency review before relationship adjudication.",
   "latest_acceptable_completion": "2026-09-11",
   "ground_truth_relationship_labels_assigned": false,
   "measured_model_results_published": false,
-  "public_private_boundary": "Only aggregate research-progress counts are public. Private evidence packets, replacement packet contents, raw operational records, and case-level suitability decisions are not exposed by this status artifact."
+  "public_private_boundary": "Only aggregate research-progress counts are public. Private evidence packets, historical-context evidence, raw operational records, and case-level decisions are not exposed by this status artifact."
 }
