@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-30T20:03:00-05:00",
+  "updated_at": "2026-08-31T00:23:00-05:00",
   "milestone": "M2",
   "milestone_state": "ACTIVE",
   "milestone_title": "Benchmark v0.1 frozen",
-  "phase": "REPLACEMENT_SUITABILITY_REVIEW_READY",
-  "headline": "M2: 22-case replacement suitability review ready.",
-  "detail": "Human suitability review of the original 100 core evidence packets is complete: 78 were suitable and 22 unsuitable. A deterministic replacement pass evaluated all 50 reserve candidates and staged 22 provenance-preserving replacement evidence packets. The replacement set is now ready for human suitability screening before the benchmark advances to historical-context assembly and relationship adjudication.",
+  "phase": "SUITABLE_POOL_ASSEMBLED",
+  "headline": "M2: 100 suitable benchmark observations assembled.",
+  "detail": "Human suitability review is complete for the original 100 core evidence packets and the 22-case replacement set. The original pass produced 78 suitable observations; all 22 replacement records were also marked suitable, producing a 100-observation suitable pool. M2 now advances to historical-context assembly and human relationship adjudication before Benchmark v0.1 is frozen.",
   "core_review": {
     "target": 100,
     "reviewed": 100,
@@ -17,14 +17,21 @@
   "replacement_review": {
     "target": 22,
     "staged": 22,
-    "reviewed": 0,
+    "reviewed": 22,
+    "suitable": 22,
+    "unsuitable": 0,
+    "needs_more_context": 0,
     "reserve_evaluated": 50,
     "exact_content_group_reuse": 0
   },
+  "benchmark_suitability_pool": {
+    "target": 100,
+    "assembled": 100
+  },
   "candidate_universe": 1914,
-  "next_gate": "Complete human suitability screening of the 22 staged replacement packets, then assemble historical context and begin relationship adjudication for Benchmark v0.1.",
+  "next_gate": "Assemble historical context for the 100 suitable observations and complete human relationship adjudication before Benchmark v0.1 freeze.",
   "latest_acceptable_completion": "2026-09-11",
   "ground_truth_relationship_labels_assigned": false,
   "measured_model_results_published": false,
-  "public_private_boundary": "Only aggregate research-progress counts are public. Private evidence packets, replacement packet contents, and raw operational records are not exposed by this status artifact."
+  "public_private_boundary": "Only aggregate research-progress counts are public. Private evidence packets, replacement packet contents, raw operational records, and case-level suitability decisions are not exposed by this status artifact."
 }
