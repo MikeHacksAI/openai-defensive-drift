@@ -31,6 +31,20 @@ This checkpoint does not assign `NEW`, `DUPLICATE`, `RECURRENCE`, `RELATED_BUT_D
 
 The 100 observations already passed benchmark suitability screening. This checkpoint only establishes that the retrieved historical evidence has been materialized and verified so a human reviewer can decide whether enough historical context is present to proceed to relationship adjudication.
 
+## Review surface ready
+
+The Excel-native context-sufficiency review builder is now checked in:
+
+- script: `experiments/pre-grant/m2-create-context-sufficiency-review-workbook.ps1`;
+- public builder commit: `52bd9e8becacc92c80cf9c67bbd04ef389be9988`;
+- exact builder blob: `2a6e58bdcc36ba7cc4288e371f73351b5f36456d`.
+
+The generated workbook contains:
+
+- a `Summary` sheet with live progress formulas and gate definitions;
+- a `Review` sheet containing exactly 100 cases with links to the accepted current observation and a jump link to its historical context;
+- a `ContextEvidence` sheet containing all 1,952 historical relationships with direct links to preserved evidence.
+
 ## Next gate
 
 Create and complete the Excel-native 100-case context-sufficiency workbook.
