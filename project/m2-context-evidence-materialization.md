@@ -16,6 +16,33 @@ The M2 adjudication protocol requires each observation to be evaluated against s
 
 The retrieval index identifies potentially relevant records, but metadata similarity is not evidence by itself. The retrieved source artifacts therefore must be materialized and reviewable before relationship adjudication begins.
 
+## Terminology: suitability is not context sufficiency
+
+These are two different human-review gates and must not be conflated.
+
+### Suitability screening — already complete
+
+The earlier suitability review asked whether a source record is a genuine incident/observation appropriate for inclusion in the Defensive Drift benchmark rather than a template, policy document, project administration artifact, aggregate container, non-incident, or redundant mirror.
+
+The final 100-observation pool has already passed that gate: 78 suitable observations from the original core review plus 22 suitable replacement observations.
+
+In ordinary project language, this is the stage that establishes that the record counts as a real benchmark drift/incident observation. It does **not** yet establish how that observation relates to historical records.
+
+### Context-sufficiency review — next human gate
+
+The context-sufficiency review asks a different question:
+
+> Do we have enough relevant historical evidence in front of us to make a defensible relationship adjudication for this already-accepted observation?
+
+Allowed decisions are:
+
+- `SUFFICIENT_FOR_ADJUDICATION`
+- `MORE_CONTEXT_REQUIRED`
+
+`SUFFICIENT_FOR_ADJUDICATION` therefore does **not** mean "this is a true drift." That benchmark-observation suitability decision was made earlier. It means only that the supplied historical evidence is adequate to proceed to the relationship-label step.
+
+A case can be a genuine benchmark observation while still requiring more historical context before the project can safely decide whether it is `NEW`, `DUPLICATE`, `RECURRENCE`, `RELATED_BUT_DISTINCT`, or `INSUFFICIENT_EVIDENCE`.
+
 ## Materialization design
 
 `experiments/pre-grant/m2-materialize-context-evidence.py` materializes each unique retrieved context candidate exactly once under the private research repository.
@@ -31,6 +58,10 @@ Evidence identity is byte-level, not text-encoding-level. Legacy Markdown record
 `source-record.md` therefore preserves the exact verified source bytes without transcoding. UTF-8 validity may be inspected as metadata or a presentation concern, but it must not be used to exclude otherwise-valid historical evidence or silently rewrite source bytes.
 
 The recovery runner `experiments/pre-grant/m2-context-evidence-encoding-repair-runner.py` applies this single byte-preservation correction to the reviewed materializer without altering the authoritative source evidence.
+
+### Validation boundary for immutable evidence
+
+Exact historical evidence payloads are validated by provenance, Git-object identity, and cryptographic hashes. Generic code/style checks such as whitespace normalization must not require mutation of preserved `source-record.md` evidence. Generated research metadata and code may still receive syntax/style validation separately.
 
 ## Private outputs
 
@@ -60,6 +91,12 @@ This gate does not assign benchmark relationship ground truth.
 Retrieval score, token overlap, exact-content identity, repository affinity, model affinity, template affinity, and timestamp ordering are retrieval aids only. None automatically establishes `DUPLICATE`, `RECURRENCE`, or any other final relationship.
 
 Unknown facts remain unknown. Context that is inadequate for a safe relationship decision must be expanded before adjudication rather than converted into an assumed label.
+
+## Operator question documentation rule
+
+When the operator asks what a research step, gate, review, metric, or workflow stage is for, the answer is part of the project methodology and must be recorded in the appropriate GitHub project documentation without requiring a separate request to document it.
+
+The repository record should preserve the practical explanation, the scientific purpose, and any terminology distinction that affects interpretation of the benchmark. This documentation obligation applies automatically as the research workflow evolves.
 
 ## Next gate
 
