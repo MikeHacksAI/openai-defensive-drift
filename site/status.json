@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-30T16:46:23-05:00",
+  "updated_at": "2026-08-30T20:03:00-05:00",
   "milestone": "M2",
   "milestone_state": "ACTIVE",
   "milestone_title": "Benchmark v0.1 frozen",
-  "phase": "HUMAN_SUITABILITY_SCREENING_COMPLETE",
-  "headline": "M2: 100-case human suitability screening complete.",
-  "detail": "Human suitability review is complete for all 100 core evidence packets. Of those records, 78 were marked suitable and 22 unsuitable, with none requiring more context. M2 now advances to replacement of unsuitable records where needed, historical-context assembly, and human relationship adjudication before Benchmark v0.1 is frozen.",
+  "phase": "REPLACEMENT_SUITABILITY_REVIEW_READY",
+  "headline": "M2: 22-case replacement suitability review ready.",
+  "detail": "Human suitability review of the original 100 core evidence packets is complete: 78 were suitable and 22 unsuitable. A deterministic replacement pass evaluated all 50 reserve candidates and staged 22 provenance-preserving replacement evidence packets. The replacement set is now ready for human suitability screening before the benchmark advances to historical-context assembly and relationship adjudication.",
   "core_review": {
     "target": 100,
     "reviewed": 100,
@@ -14,10 +14,17 @@
     "unsuitable": 22,
     "needs_more_context": 0
   },
+  "replacement_review": {
+    "target": 22,
+    "staged": 22,
+    "reviewed": 0,
+    "reserve_evaluated": 50,
+    "exact_content_group_reuse": 0
+  },
   "candidate_universe": 1914,
-  "next_gate": "Replace unsuitable records as needed, assemble historical context, then complete human relationship adjudication for the v0.1 benchmark.",
+  "next_gate": "Complete human suitability screening of the 22 staged replacement packets, then assemble historical context and begin relationship adjudication for Benchmark v0.1.",
   "latest_acceptable_completion": "2026-09-11",
   "ground_truth_relationship_labels_assigned": false,
   "measured_model_results_published": false,
-  "public_private_boundary": "Only aggregate research-progress counts are public. Private evidence packets and raw operational records are not exposed by this status artifact."
+  "public_private_boundary": "Only aggregate research-progress counts are public. Private evidence packets, replacement packet contents, and raw operational records are not exposed by this status artifact."
 }
