@@ -54,27 +54,38 @@ def tok(*parts: str) -> set[str]:
                 result.add(t)
     return result
 
-def ts(*parts: str) -> datetime | None:
+def ts(*parts: str) -> tuple[datetime, str] | None:
     for part in parts:
         m = DATE_RE.search(part)
         if not m:
             continue
         g = m.groupdict()
+        precision = "SECOND" if g["s"] else ("MINUTE" if g["h"] and g["mi"] else "DATE")
         try:
-            return datetime(
+            value = datetime(
                 int(g["y"]), int(g["m"]), int(g["d"]),
                 int(g["h"] or 0), int(g["mi"] or 0), int(g["s"] or 0),
             )
+            return value, precision
         except ValueError:
             pass
     return None
 
-def temporal(current: datetime | None, candidate: datetime | None) -> str:
+def temporal(
+    current: tuple[datetime, str] | None,
+    candidate: tuple[datetime, str] | None,
+) -> str:
     if current is None or candidate is None:
         return "UNKNOWN"
-    if candidate < current:
+    current_dt, current_precision = current
+    candidate_dt, candidate_precision = candidate
+    if current_dt.date() != candidate_dt.date():
+        return "OLDER" if candidate_dt.date() < current_dt.date() else "NEWER"
+    if current_precision == "DATE" or candidate_precision == "DATE":
+        return "UNKNOWN"
+    if candidate_dt < current_dt:
         return "OLDER"
-    if candidate == current:
+    if candidate_dt == current_dt:
         return "SAME_TIME"
     return "NEWER"
 
@@ -249,7 +260,10 @@ def main() -> int:
         case_rows.append({
             "case_index":case_index,
             **p,
-            "explicit_timestamp_status":"AVAILABLE" if ctime else "UNKNOWN",
+            "explicit_timestamp_status":(
+                "DATE_ONLY" if ctime and ctime[1] == "DATE"
+                else ("TIME_AVAILABLE" if ctime else "UNKNOWN")
+            ),
             "retrieved_context_candidates":len(selected),
             "historical_context_status":"CANDIDATES_RETRIEVED" if selected else "NO_METADATA_MATCHES",
             "ground_truth_assigned":"NO",
@@ -283,7 +297,8 @@ def main() -> int:
         "context_rows":len(context_rows),
         "cases_with_context_candidates":cc.get("CANDIDATES_RETRIEVED",0),
         "cases_without_metadata_matches":cc.get("NO_METADATA_MATCHES",0),
-        "cases_with_explicit_timestamp":tc.get("AVAILABLE",0),
+        "cases_with_time_available":tc.get("TIME_AVAILABLE",0),
+        "cases_with_date_only":tc.get("DATE_ONLY",0),
         "cases_with_unknown_timestamp":tc.get("UNKNOWN",0),
         "ground_truth_assigned":0,
         "method":"Deterministic metadata retrieval only; retrieval similarity is not relationship ground truth.",
@@ -298,8 +313,8 @@ def main() -> int:
         "(78 original + 22 replacement) and creates deterministic metadata-only retrieval hints.\n\n"
         "This stage does not assign NEW, DUPLICATE, RECURRENCE, RELATED_BUT_DISTINCT, or "
         "INSUFFICIENT_EVIDENCE. Similarity is not ground truth.\n\n"
-        "Known newer or same-time records are excluded when explicit timestamps are available. "
-        "Unknown ordering remains eligible and is marked TEMPORAL_RELATION_UNKNOWN.\n"
+        "Known newer or same-time records are excluded only when timestamp precision safely supports "
+        "that ordering. Same-day records with date-only evidence remain temporally UNKNOWN.\n"
     )
     (out / "README.md").write_text(readme, encoding="utf-8", newline="\n")
 
@@ -317,7 +332,8 @@ def main() -> int:
     print(f"ContextRows={len(context_rows)}")
     print(f"CasesWithContextCandidates={cc.get('CANDIDATES_RETRIEVED',0)}")
     print(f"CasesWithoutMetadataMatches={cc.get('NO_METADATA_MATCHES',0)}")
-    print(f"CasesWithExplicitTimestamp={tc.get('AVAILABLE',0)}")
+    print(f"CasesWithTimeAvailable={tc.get('TIME_AVAILABLE',0)}")
+    print(f"CasesWithDateOnly={tc.get('DATE_ONLY',0)}")
     print(f"CasesWithUnknownTimestamp={tc.get('UNKNOWN',0)}")
     print("GroundTruthAssigned=0")
     print(f"Output={out}")
