@@ -24,6 +24,14 @@ Tracked evidence is extracted from its preserved Git blob and verified with Git 
 
 The materialized library is deduplicated by candidate identity rather than copied once per case. The 1,952 case-to-context relationships point to that evidence library through a mapping CSV.
 
+### Text-encoding boundary
+
+Evidence identity is byte-level, not text-encoding-level. Legacy Markdown records are not required to be valid UTF-8 when their authoritative Git object or preserved discovery hash validates successfully.
+
+`source-record.md` therefore preserves the exact verified source bytes without transcoding. UTF-8 validity may be inspected as metadata or a presentation concern, but it must not be used to exclude otherwise-valid historical evidence or silently rewrite source bytes.
+
+The recovery runner `experiments/pre-grant/m2-context-evidence-encoding-repair-runner.py` applies this single byte-preservation correction to the reviewed materializer without altering the authoritative source evidence.
+
 ## Private outputs
 
 The stage writes only under `adjudication-working/context-evidence/`:
