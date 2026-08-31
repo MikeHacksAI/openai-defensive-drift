@@ -27,9 +27,11 @@ Retrieval signals include:
 - repository affinity;
 - model-group affinity;
 - template-family affinity;
-- explicit timestamp ordering when a timestamp can be parsed from preserved metadata.
+- explicit timestamp ordering only when preserved timestamp precision safely supports the ordering decision.
 
-Known newer or same-time records are not supplied as historical context when both observation and candidate timestamps are explicitly available. Unknown timestamp ordering remains eligible but is marked `TEMPORAL_RELATION_UNKNOWN`.
+Timestamp precision is preserved. A date-only value is not silently converted into evidence-grade midnight. If two records fall on the same date and either record lacks time-of-day precision, their temporal relation remains `UNKNOWN` rather than being forced to `OLDER`, `NEWER`, or `SAME_TIME`.
+
+Known newer or same-time records are not supplied as historical context only when the available evidence safely establishes that ordering. Unknown timestamp ordering remains eligible and is marked `TEMPORAL_RELATION_UNKNOWN`.
 
 ## Scientific boundary
 
