@@ -4,9 +4,9 @@
   "milestone": "M2",
   "milestone_state": "ACTIVE",
   "milestone_title": "Benchmark v0.1 frozen",
-  "phase": "CONTEXT_EVIDENCE_MATERIALIZED",
-  "headline": "M2: historical evidence materialized for all 100 cases.",
-  "detail": "Historical-context evidence is now materialized and integrity-validated for the full 100-observation suitable benchmark pool. The private evidence library contains 820 unique historical context records supporting 1,952 case-to-context relationships; all 820 evidence hashes passed, two legacy non-UTF-8 records were preserved byte-for-byte, all 100 cases are ready for human context-sufficiency review, and relationship ground truth remains unassigned. M2 now advances to the Excel-native context-sufficiency review gate.",
+  "phase": "CONTEXT_SUFFICIENCY_REVIEW_READY",
+  "headline": "M2: 100-case context-sufficiency review is ready.",
+  "detail": "Historical-context evidence is materialized and integrity-validated for all 100 suitable benchmark observations. The private evidence library contains 820 unique historical records supporting 1,952 case-to-context relationships; all 820 evidence hashes passed, two legacy non-UTF-8 records were preserved byte-for-byte, and relationship ground truth remains unassigned. The Excel-native review builder is now checked in and the next operator gate is human context-sufficiency review across all 100 cases.",
   "core_review": {
     "target": 100,
     "reviewed": 100,
@@ -43,8 +43,15 @@
     "cases_ready_for_sufficiency_review": 100,
     "context_sufficiency_decisions_assigned": 0
   },
+  "context_sufficiency_review": {
+    "target": 100,
+    "reviewed": 0,
+    "sufficient_for_adjudication": 0,
+    "more_context_required": 0,
+    "workbook_builder_ready": true
+  },
   "candidate_universe": 1914,
-  "next_gate": "Complete the Excel-native 100-case human context-sufficiency review. Cases marked MORE_CONTEXT_REQUIRED receive bounded retrieval expansion; cases marked SUFFICIENT_FOR_ADJUDICATION proceed to relationship ground-truth adjudication.",
+  "next_gate": "Complete all 100 human context-sufficiency decisions in the Excel-native review workbook. Cases marked MORE_CONTEXT_REQUIRED receive bounded retrieval expansion; cases marked SUFFICIENT_FOR_ADJUDICATION proceed to relationship ground-truth adjudication.",
   "latest_acceptable_completion": "2026-09-11",
   "ground_truth_relationship_labels_assigned": false,
   "measured_model_results_published": false,
