@@ -84,6 +84,12 @@ The materialization stage writes only under `adjudication-working/context-eviden
 
 `experiments/pre-grant/m2-create-context-sufficiency-review-workbook.ps1` creates the operator review workbook from the verified private checkpoint.
 
+Builder checkpoint:
+
+- public builder commit: `52bd9e8becacc92c80cf9c67bbd04ef389be9988`;
+- exact builder blob: `2a6e58bdcc36ba7cc4288e371f73351b5f36456d`;
+- expected private evidence checkpoint: `0c3df389b37ea948129c801276a844ecf3430b9e`.
+
 The workbook intentionally separates the human decision surface from retrieval metadata:
 
 - `Summary` — progress counts and plain-language gate definitions;
