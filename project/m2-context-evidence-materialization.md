@@ -2,13 +2,18 @@
 
 ## Current state
 
-The deterministic historical-context retrieval index is complete for the 100 suitable benchmark observations.
+Historical-context evidence materialization is complete for the 100 suitable benchmark observations.
 
 - suitable benchmark pool: 100 observations;
 - retrieved case-to-context rows: 1,952;
-- cases with at least one retrieved context candidate: 100;
-- cases without metadata matches: 0;
+- unique materialized historical evidence records: 820;
+- evidence hashes verified: 820;
+- preserved non-UTF-8 legacy records: 2;
+- cases ready for human context-sufficiency review: 100;
+- context-sufficiency decisions assigned: 0;
 - relationship ground truth assigned: 0.
+
+The private materialization checkpoint is `0c3df389b37ea948129c801276a844ecf3430b9e`.
 
 ## Why this gate exists
 
@@ -28,7 +33,7 @@ The final 100-observation pool has already passed that gate: 78 suitable observa
 
 In ordinary project language, this is the stage that establishes that the record counts as a real benchmark drift/incident observation. It does **not** yet establish how that observation relates to historical records.
 
-### Context-sufficiency review — next human gate
+### Context-sufficiency review — current human gate
 
 The context-sufficiency review asks a different question:
 
@@ -65,7 +70,7 @@ Exact historical evidence payloads are validated by provenance, Git-object ident
 
 ## Private outputs
 
-The stage writes only under `adjudication-working/context-evidence/`:
+The materialization stage writes only under `adjudication-working/context-evidence/`:
 
 - `evidence-library/<candidate-id>/source-record.md` — exact materialized evidence;
 - `evidence-library/<candidate-id>/manifest.json` — source provenance, hashes, and materialization mode;
@@ -74,6 +79,20 @@ The stage writes only under `adjudication-working/context-evidence/`:
 - `context-sufficiency-review.csv` — 100-case human-review worklist;
 - `build-summary.json` — materialization and integrity counts;
 - `README.md` — private-stage boundary documentation.
+
+## Excel-native context-sufficiency review surface
+
+`experiments/pre-grant/m2-create-context-sufficiency-review-workbook.ps1` creates the operator review workbook from the verified private checkpoint.
+
+The workbook intentionally separates the human decision surface from retrieval metadata:
+
+- `Summary` — progress counts and plain-language gate definitions;
+- `Review` — exactly 100 benchmark observations, each with a hyperlink to the current observation, a jump link to its retrieved historical context, the count of retrieved context candidates, a reviewer-notes field, and the context-sufficiency dropdown;
+- `ContextEvidence` — all 1,952 retrieved relationships with rank, title, temporal relation, retrieval score/reasons, provenance metadata, and a direct hyperlink to the preserved historical evidence record.
+
+The only editable classification at this gate is `Context Sufficiency`. Relationship ground truth remains `NO` throughout the workbook. Retrieval rank and score are displayed for navigation and auditability but are not labels and must not be treated as human ground truth.
+
+The generated workbook is kept outside the Git repository during active review. When the human review is complete, the decision values and workbook hash are ingested into the private research repository as durable review evidence, following the same pattern used for the earlier suitability review workbooks.
 
 ## Human context-sufficiency gate
 
@@ -100,4 +119,4 @@ The repository record should preserve the practical explanation, the scientific 
 
 ## Next gate
 
-After materialized evidence passes integrity validation, create the Excel-native 100-case context-sufficiency review workbook. Once human sufficiency review is complete, cases marked `MORE_CONTEXT_REQUIRED` receive bounded retrieval expansion; only cases with sufficient supplied context proceed to relationship/remediation/severity/dangerous-false-duplicate/confidence adjudication.
+Create and complete the Excel-native 100-case context-sufficiency review workbook. Cases marked `MORE_CONTEXT_REQUIRED` receive bounded retrieval expansion. Only cases marked `SUFFICIENT_FOR_ADJUDICATION` proceed to relationship/remediation/severity/dangerous-false-duplicate/confidence adjudication.
