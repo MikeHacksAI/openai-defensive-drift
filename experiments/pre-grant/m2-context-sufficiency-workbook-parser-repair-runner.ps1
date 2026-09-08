@@ -2,7 +2,7 @@ param(
     [string]$PublicRepo = 'C:\GitHub\openai-defensive-drift',
     [string]$PrivateRepo = 'C:\GitHub\openai-defensive-drift-private',
     [string]$OutputPath = 'C:\DefensiveDrift\M2-Review\Defensive-Drift-M2-Context-Sufficiency-Review.xlsx',
-    [string]$ExpectedPrivateHead = '0c3df389b37ea948129c801276a844ecf3430b9e'
+    [string]$ExpectedEvidenceCheckpoint = '0c3df389b37ea948129c801276a844ecf3430b9e'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -91,8 +91,20 @@ $PrivateHead = (git -C $PrivateRepo rev-parse HEAD).Trim()
 if ($LASTEXITCODE -ne 0) {
     throw 'Unable to resolve private repository HEAD.'
 }
-if ($PrivateHead -ne $ExpectedPrivateHead) {
-    throw "Unexpected private checkpoint. Expected=$ExpectedPrivateHead Actual=$PrivateHead"
+
+& git -C $PrivateRepo merge-base --is-ancestor $ExpectedEvidenceCheckpoint $PrivateHead
+$AncestorExit = $LASTEXITCODE
+if ($AncestorExit -ne 0) {
+    throw "Required evidence checkpoint is not an ancestor of current private HEAD. EvidenceCheckpoint=$ExpectedEvidenceCheckpoint CurrentHead=$PrivateHead"
+}
+
+& git -C $PrivateRepo diff --quiet $ExpectedEvidenceCheckpoint $PrivateHead -- 'adjudication-working/context-evidence'
+$EvidenceDiffExit = $LASTEXITCODE
+if ($EvidenceDiffExit -eq 1) {
+    throw "The M2 context-evidence subtree changed after the reviewed evidence checkpoint. EvidenceCheckpoint=$ExpectedEvidenceCheckpoint CurrentHead=$PrivateHead"
+}
+if ($EvidenceDiffExit -ne 0) {
+    throw "Unable to verify the M2 context-evidence subtree against checkpoint $ExpectedEvidenceCheckpoint. git diff exit=$EvidenceDiffExit"
 }
 
 $PrivateDirty = @(git -C $PrivateRepo status --porcelain=v1 --untracked-files=all)
@@ -152,12 +164,14 @@ try {
 
     Write-Host "CanonicalBuilderBlob=PASS — $ActualBuilderBlob"
     Write-Host "ExecutionSourceBlob=PASS — $ExecutionSourceBlob"
+    Write-Host "EvidenceCheckpoint=PASS — $ExpectedEvidenceCheckpoint"
+    Write-Host "PrivateHead=PASS — $PrivateHead"
+    Write-Host 'ContextEvidenceSubtree=PASS — unchanged since evidence checkpoint'
     Write-Host 'RepairScope=PASS — exactly one ${CaseIndex}: parser repair'
     Write-Host 'EncodingPatch=PASS — Review CSV explicit UTF8'
     Write-Host 'EncodingPatch=PASS — Context-map CSV explicit UTF8'
     Write-Host 'RepairedParser=PASS'
     Write-Host "TemporaryExecutionSHA256=$TempHash"
-    Write-Host "PrivateCheckpoint=PASS — $PrivateHead"
     Write-Host ''
     Write-Host '[execute reviewed temporary workbook builder]'
 
@@ -166,7 +180,7 @@ try {
     & $TempScript `
         -PrivateRepo $PrivateRepo `
         -OutputPath $OutputPath `
-        -ExpectedPrivateHead $ExpectedPrivateHead
+        -ExpectedPrivateHead $PrivateHead
 
     if (-not (Test-Path -LiteralPath $OutputPath -PathType Leaf)) {
         throw "Expected workbook was not created: $OutputPath"
@@ -180,6 +194,8 @@ try {
     Write-Host ' M2 CONTEXT-SUFFICIENCY WORKBOOK REVIEWED RECOVERY COMPLETE'
     Write-Host " Workbook=$OutputPath"
     Write-Host " WorkbookSHA256=$WorkbookHash"
+    Write-Host " EvidenceCheckpoint=$ExpectedEvidenceCheckpoint"
+    Write-Host " PrivateHeadAtExecution=$PrivateHead"
     Write-Host ' ReviewCases=100'
     Write-Host ' HistoricalContextRows=1952'
     Write-Host ' ExpectedReviewHyperlinks=200'
