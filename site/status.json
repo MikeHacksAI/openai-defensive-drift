@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-31T08:18:01-05:00",
+  "updated_at": "2026-09-18T15:33:00-05:00",
   "milestone": "M2",
-  "milestone_state": "ACTIVE",
-  "milestone_title": "Benchmark v0.1 frozen",
-  "phase": "CONTEXT_SUFFICIENCY_REVIEW_READY",
-  "headline": "M2: 100-case context-sufficiency review is ready.",
-  "detail": "Historical-context evidence is materialized and integrity-validated for all 100 suitable benchmark observations. The private evidence library contains 820 unique historical records supporting 1,952 case-to-context relationships; all 820 evidence hashes passed, two legacy non-UTF-8 records were preserved byte-for-byte, and relationship ground truth remains unassigned. The Excel-native review builder is now checked in and the next operator gate is human context-sufficiency review across all 100 cases.",
+  "milestone_state": "ACTIVE_REBASELINE",
+  "milestone_title": "Benchmark v0.1 recovery and freeze",
+  "phase": "GRANT_SPRINT_REBASELINE_AND_CONTEXT_REVIEW_RECOVERY",
+  "headline": "M2: benchmark recovery and grant rebaseline are active.",
+  "detail": "M1 is complete. The M2 evidence base remains materialized and integrity-validated for 100 suitable benchmark observations, with 820 unique historical records supporting 1,952 case-to-context relationships and all 820 evidence hashes verified. The last verified research artifact still records 0 of 100 human context-sufficiency decisions and no relationship ground-truth labels. Drift-governance automation has advanced separately, but it does not replace the unfinished benchmark work. The current priority is to complete the human context-sufficiency gate, freeze benchmark v0.1, and then run M3 baselines and M4 model evaluations.",
   "core_review": {
     "target": 100,
     "reviewed": 100,
@@ -51,8 +51,14 @@
     "workbook_builder_ready": true
   },
   "candidate_universe": 1914,
-  "next_gate": "Complete all 100 human context-sufficiency decisions in the Excel-native review workbook. Cases marked MORE_CONTEXT_REQUIRED receive bounded retrieval expansion; cases marked SUFFICIENT_FOR_ADJUDICATION proceed to relationship ground-truth adjudication.",
-  "latest_acceptable_completion": "2026-09-11",
+  "next_gate": "Complete the 100 human context-sufficiency decisions, expand evidence only where MORE_CONTEXT_REQUIRED, then complete relationship ground-truth adjudication and freeze benchmark v0.1.",
+  "schedule": {
+    "original_m2_target": "2026-09-11",
+    "original_m3_target": "2026-09-18",
+    "internal_submission_ready_target": "2026-10-02",
+    "status": "REBASELINED_2026-09-18",
+    "note": "The September 11 and September 18 dates are historical targets that were missed. October 2 remains an internal execution target, not an asserted external grant deadline."
+  },
   "ground_truth_relationship_labels_assigned": false,
   "measured_model_results_published": false,
   "public_private_boundary": "Only aggregate research-progress counts are public. Private evidence packets, historical-context evidence, raw operational records, and case-level decisions are not exposed by this status artifact."
