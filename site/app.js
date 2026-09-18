@@ -20,12 +20,25 @@
     }
   };
 
+  const formatDate = (value) => {
+    if (!value) return 'not set';
+    const parsed = new Date(`${value}T12:00:00`);
+    if (Number.isNaN(parsed.getTime())) return value;
+    return parsed.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
   const renderStatus = (status) => {
     setText('#status h2', status.headline);
     setText('#status .status-layout > div > p', status.detail);
+
+    const internalTarget = status.schedule?.internal_submission_ready_target;
     setText(
       '#next-gate',
-      `Active gate: ${status.milestone} — ${status.next_gate} Latest-acceptable completion: ${status.latest_acceptable_completion}.`
+      `Active gate: ${status.milestone} — ${status.next_gate} Internal submission-ready target: ${formatDate(internalTarget)}.`
     );
 
     if (status.core_review) {
