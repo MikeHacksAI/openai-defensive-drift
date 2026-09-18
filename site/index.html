@@ -25,7 +25,7 @@
       <h1>Can AI reliably distinguish a new security problem from a duplicate, recurrence, or already-remediated incident?</h1>
       <p class="lede">Defensive Drift is building a reproducible benchmark and evaluation pipeline for security-drift reconciliation across configuration evidence, historical incidents, scanner findings, logs, and remediation records.</p>
       <div class="hero-actions">
-        <a class="button primary" href="#roadmap">View the accelerated research sprint</a>
+        <a class="button primary" href="#roadmap">View the current grant-readiness path</a>
         <a class="button secondary" href="https://github.com/MikeHacksAI/openai-defensive-drift">Open the research repository</a>
       </div>
       <div class="integrity-note">
@@ -35,9 +35,9 @@
 
     <section class="stats shell" aria-label="Project targets">
       <article><span class="stat-value">100</span><span class="stat-label">v0.1 human-adjudicated case target</span></article>
-      <article><span class="stat-value">150–200</span><span class="stat-label">immediate expansion range when quality supports it</span></article>
+      <article><span class="stat-value">820</span><span class="stat-label">historical evidence records hash-verified</span></article>
       <article><span class="stat-value">5</span><span class="stat-label">relationship classes</span></article>
-      <article><span class="stat-value">35</span><span class="stat-label">days to latest grant-readiness gate</span></article>
+      <article><span class="stat-value">Oct 2</span><span class="stat-label">internal submission-ready target</span></article>
     </section>
 
     <section id="research" class="section shell">
@@ -78,34 +78,34 @@
 
     <section id="roadmap" class="section shell">
       <div class="section-heading">
-        <span class="kicker">Accelerated 35-day pre-grant sprint</span>
-        <h2>Five milestone gates. Dates are deadlines, not pacing targets.</h2>
+        <span class="kicker">Grant-readiness execution path · rebaselined September 18</span>
+        <h2>Five milestone gates. Current status takes precedence over missed historical target dates.</h2>
       </div>
       <div class="timeline">
         <article class="milestone">
-          <div class="milestone-meta">M1 · COMPLETE · latest Sep 4</div>
+          <div class="milestone-meta">M1 · COMPLETE</div>
           <h3>Research design frozen</h3>
           <p>Taxonomy, ground-truth rules, metrics, sanitization boundaries, and experiment protocol were frozen before final benchmark/model evaluation.</p>
         </article>
         <article class="milestone current">
-          <div class="milestone-meta">M2 · ACTIVE · latest Sep 11</div>
-          <h3>Benchmark v0.1 frozen</h3>
-          <p>Discover the heterogeneous cross-model evidence corpus, preserve source provenance, normalize only in the private workspace, and build a 100-case human-adjudicated v0.1 benchmark with a 150–200 expansion range when scientifically useful.</p>
+          <div class="milestone-meta">M2 · ACTIVE · RECOVERY / REBASELINE</div>
+          <h3>Freeze benchmark v0.1</h3>
+          <p>The 100-case evidence base is assembled and historical context is materialized. The current scientific gate is human context-sufficiency review, followed by human relationship adjudication and benchmark freeze.</p>
         </article>
         <article class="milestone">
-          <div class="milestone-meta">M3 · latest Sep 18</div>
-          <h3>Conventional baselines complete</h3>
-          <p>Run normalized lexical, TF-IDF/similarity, and embedding baselines on the frozen benchmark.</p>
+          <div class="milestone-meta">M3 · BLOCKED ON M2</div>
+          <h3>Run conventional baselines</h3>
+          <p>Run normalized lexical, TF-IDF/similarity, and embedding baselines only after benchmark v0.1 is frozen so final comparisons remain reproducible.</p>
         </article>
         <article class="milestone">
-          <div class="milestone-meta">M4 · latest Sep 25</div>
-          <h3>AI evaluation complete</h3>
-          <p>Compare OpenAI and practical open-weight approaches, including repeated high-risk trials, cost, latency, and failure analysis.</p>
+          <div class="milestone-meta">M4 · QUEUED AFTER M3</div>
+          <h3>Complete AI evaluation</h3>
+          <p>Compare OpenAI and practical open-weight approaches, including repeated high-risk trials, cost, latency, evidence grounding, consistency, and failure analysis.</p>
         </article>
         <article class="milestone">
-          <div class="milestone-meta">M5 · latest Oct 2</div>
+          <div class="milestone-meta">M5 · INTERNAL TARGET OCT 2</div>
           <h3>Grant-ready evidence package</h3>
-          <p>Publish methodology, preliminary results, reproducibility artifacts, failure catalog, research brief, and the final grant evidence matrix.</p>
+          <p>Publish methodology, preliminary measured results, reproducibility artifacts, failure catalog, research brief, and the final grant evidence matrix. October 2 is an internal execution target, not an asserted external grant deadline.</p>
         </article>
       </div>
     </section>
@@ -114,19 +114,19 @@
       <div class="shell status-layout">
         <div>
           <span class="kicker">Current status</span>
-          <h2>M2: cross-model benchmark construction underway.</h2>
-          <p>M1 is complete. The active work is discovering and inventorying valid drift evidence across models, repositories, storage conventions, and historical template families; preserving provenance; and preparing derived private records for human adjudication. Measured benchmark and model results will appear here only after the corresponding methodology gates are complete.</p>
+          <h2>M2: benchmark recovery and grant rebaseline are active.</h2>
+          <p>M1 is complete. The M2 evidence base remains materialized and integrity-validated for 100 suitable benchmark observations, with 820 unique historical records supporting 1,952 case-to-context relationships. The last verified research artifact still records 0 of 100 human context-sufficiency decisions and no relationship ground-truth labels. Drift-governance automation has advanced separately, but it does not replace the unfinished benchmark work.</p>
           <div class="status-links">
             <a href="https://github.com/MikeHacksAI/openai-defensive-drift/issues/2">M2 tracker</a>
-            <a href="https://github.com/MikeHacksAI/openai-defensive-drift/blob/main/project/35-day-sprint.md">35-day sprint</a>
+            <a href="https://github.com/MikeHacksAI/openai-defensive-drift/blob/main/project/checkpoints/Defensive-Drift-Current-State-Checkpoint-2026-09-18.md">Sep 18 checkpoint</a>
             <a href="https://github.com/MikeHacksAI/openai-defensive-drift/blob/main/project/metrics.md">Metrics contract</a>
             <a href="https://github.com/MikeHacksAI/openai-defensive-drift/blob/main/grant/evidence-matrix.md">Grant evidence matrix</a>
           </div>
         </div>
         <aside class="card progress-card">
-          <div class="progress-topline"><span>Sprint clock</span><strong id="progress-label">Day 1 of 35</strong></div>
+          <div class="progress-topline"><span>Internal target clock</span><strong id="progress-label">Grant sprint</strong></div>
           <div class="progress-track" aria-hidden="true"><div id="progress-bar" class="progress-bar"></div></div>
-          <p id="next-gate" class="muted">Active gate: M2 — Benchmark v0.1 Frozen. Latest-acceptable completion: September 11.</p>
+          <p id="next-gate" class="muted">Active gate: M2 — complete human context-sufficiency review, relationship adjudication, and benchmark freeze. Internal submission-ready target: October 2, 2026.</p>
         </aside>
       </div>
     </section>
