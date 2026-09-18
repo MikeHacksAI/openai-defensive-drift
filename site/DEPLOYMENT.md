@@ -6,6 +6,10 @@ Canonical source repository: `MikeHacksAI/openai-defensive-drift`
 
 Canonical branch: `main`
 
+Canonical Cloudflare Pages project: `openai-defensive-drift-v2`
+
+Canonical Pages hostname: `https://openai-defensive-drift-v2.pages.dev`
+
 Site source directory: `site/`
 
 ## Branch policy
@@ -27,35 +31,74 @@ GitHub `main` is the authoritative source for the public research site.
 
 Cloudflare Pages is the deployment and hosting platform.
 
-GitHub Actions is intentionally not used for this project.
+GitHub Actions is intentionally not used for this site deployment.
 
 Deployment flow:
 
-`GitHub main` → `Cloudflare Pages native Git integration` → `defensive-drift.mikehacks.ai`
+`MikeHacksAI/openai-defensive-drift` `main` → Cloudflare Pages project `openai-defensive-drift-v2` → `openai-defensive-drift-v2.pages.dev` → `defensive-drift.mikehacks.ai`
 
-## Cloudflare Pages project setup
+## Current Cloudflare Pages configuration
 
-Create a Cloudflare Pages project connected directly to the GitHub repository:
+The canonical Pages project is configured as follows:
 
+- Pages project: `openai-defensive-drift-v2`
 - Repository: `MikeHacksAI/openai-defensive-drift`
 - Production branch: `main`
 - Framework preset: `None`
-- Build command: leave blank
+- Build command: blank
 - Build output directory: `site`
+- Root directory: blank
+- Custom domain: `defensive-drift.mikehacks.ai`
 
 The site is static HTML/CSS/JavaScript and does not require a build step.
 
-Cloudflare Pages should automatically deploy future commits to `main` that affect the public site source.
+## DNS
 
-## Custom domain
+The production DNS record is:
 
-Attach this custom domain to the Cloudflare Pages project:
+- Type: `CNAME`
+- Name: `defensive-drift.mikehacks.ai`
+- Target: `openai-defensive-drift-v2.pages.dev`
+- Proxy status: Proxied
 
-`defensive-drift.mikehacks.ai`
+Cloudflare Pages owns the custom-domain association. Do not treat the DNS record alone as sufficient proof of the active Pages project; verify the custom domain under the Pages project's **Custom domains** configuration when auditing deployment state.
 
-The hostname was previously pointed at GitHub Pages during initial setup. Once the Cloudflare Pages custom domain is attached, the existing GitHub-targeted DNS record should be replaced by the DNS configuration Cloudflare Pages creates or requests.
+## 2026-09-18 GitHub-organization migration
 
-Do not leave multiple conflicting A, AAAA, or CNAME records for `defensive-drift`.
+The original Cloudflare Pages project named `openai-defensive-drift` remained connected to the former GitHub repository identity:
+
+`MikeHacksAI-Admin/openai-defensive-drift`
+
+After the GitHub account was converted/migrated to the `MikeHacksAI` organization, that old Pages project no longer represented the canonical source repository used for active development.
+
+A replacement Pages project was therefore created and verified before production cutover:
+
+- replacement Pages project: `openai-defensive-drift-v2`
+- canonical GitHub repository: `MikeHacksAI/openai-defensive-drift`
+- production branch: `main`
+- build output: `site`
+- verification hostname: `openai-defensive-drift-v2.pages.dev`
+
+The replacement site was visually verified before the production hostname moved. The production CNAME and Pages custom-domain association were then changed to the v2 project, and `defensive-drift.mikehacks.ai` resolved successfully after cutover.
+
+The legacy `openai-defensive-drift` Pages project should be retained temporarily as rollback/history evidence until the v2 deployment path has demonstrated normal ongoing automatic deployments. It must not regain ownership of the production custom domain unless an explicit rollback is performed.
+
+## Production-change safety rule
+
+For future Pages migrations or repairs, direct live-state evidence outranks stale deployment documentation.
+
+Before changing a production Pages association, record and verify:
+
+1. existing Pages project name;
+2. connected GitHub owner/repository;
+3. production branch;
+4. deployed/known-good Pages hostname;
+5. build output directory;
+6. current custom-domain association;
+7. current DNS target; and
+8. the proposed replacement project's independent `pages.dev` result.
+
+A replacement project must be verified independently before the live custom domain is moved.
 
 ## GitHub Actions policy
 
@@ -67,14 +110,18 @@ This project should not depend on paid GitHub Actions execution for routine site
 
 ## Verification checklist
 
-After the Cloudflare Pages project and custom domain are configured:
+After a deployment or production-domain change:
 
 - confirm the Cloudflare Pages deployment succeeds;
+- confirm the Pages project is connected to `MikeHacksAI/openai-defensive-drift`;
+- confirm production branch is `main`;
 - confirm the deployed revision corresponds to the intended GitHub `main` commit;
-- confirm `https://defensive-drift.mikehacks.ai` loads the research landing page;
+- confirm `https://openai-defensive-drift-v2.pages.dev` loads the intended site;
+- confirm `https://defensive-drift.mikehacks.ai` loads the same intended site;
 - confirm HTTPS is valid;
 - confirm CSS and JavaScript assets load correctly;
 - confirm GitHub links and milestone links resolve;
+- confirm `MikeHacksAI` in the footer links to `https://mikehacks.ai`;
 - confirm no private/raw research corpus is included in the deployment;
 - confirm no unmeasured research results are presented as measured findings.
 
