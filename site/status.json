@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-18T15:33:00-05:00",
+  "updated_at": "2026-09-25T11:07:13-05:00",
   "milestone": "M2",
-  "milestone_state": "ACTIVE_REBASELINE",
-  "milestone_title": "Benchmark v0.1 recovery and freeze",
-  "phase": "GRANT_SPRINT_REBASELINE_AND_CONTEXT_REVIEW_RECOVERY",
-  "headline": "M2: benchmark recovery and grant rebaseline are active.",
-  "detail": "M1 is complete. The M2 evidence base remains materialized and integrity-validated for 100 suitable benchmark observations, with 820 unique historical records supporting 1,952 case-to-context relationships and all 820 evidence hashes verified. The last verified research artifact still records 0 of 100 human context-sufficiency decisions and no relationship ground-truth labels. Drift-governance automation has advanced separately, but it does not replace the unfinished benchmark work. The current priority is to complete the human context-sufficiency gate, freeze benchmark v0.1, and then run M3 baselines and M4 model evaluations.",
+  "milestone_state": "ACTIVE_ADJUDICATION",
+  "milestone_title": "Benchmark v0.1 adjudication and freeze",
+  "phase": "M2_100_CASE_ASSEMBLED_GROUND_TRUTH_PENDING",
+  "headline": "M2: the 100-case benchmark pool is assembled; ground-truth adjudication is next.",
+  "detail": "M1 is complete. The M2 benchmark suitability target is now assembled and quality-reviewed at 100 suitable cases: 78 suitable cases from the original 100-case review plus 22 reviewed and accepted replacements for the 22 unsuitable originals. The historical-context evidence remains materialized and integrity-validated, with 820 unique historical records supporting 1,952 case-to-context relationships and all 820 evidence hashes verified. The remaining M2 gate is human context-sufficiency review, relationship ground-truth adjudication, schema validation, and benchmark v0.1 freeze. OpenAI Cybersecurity Grant application preparation is active in parallel and will use only verified preliminary evidence.",
   "core_review": {
     "target": 100,
     "reviewed": 100,
@@ -51,15 +51,16 @@
     "workbook_builder_ready": true
   },
   "candidate_universe": 1914,
-  "next_gate": "Complete the 100 human context-sufficiency decisions, expand evidence only where MORE_CONTEXT_REQUIRED, then complete relationship ground-truth adjudication and freeze benchmark v0.1.",
+  "next_gate": "Complete the 100 human context-sufficiency decisions, expand evidence only where MORE_CONTEXT_REQUIRED, then complete relationship ground-truth adjudication, schema validation, and freeze benchmark v0.1. Grant application preparation proceeds in parallel using verified evidence only.",
   "schedule": {
     "original_m2_target": "2026-09-11",
     "original_m3_target": "2026-09-18",
-    "internal_submission_ready_target": "2026-10-02",
-    "status": "REBASELINED_2026-09-18",
-    "note": "The September 11 and September 18 dates are historical targets that were missed. October 2 remains an internal execution target, not an asserted external grant deadline."
+    "previous_internal_submission_ready_target": "2026-10-02",
+    "status": "REBASELINED_2026-09-25",
+    "note": "The September 11 and September 18 dates are historical targets. The prior October 2 internal target is no longer treated as a reason to delay application preparation; submission is being advanced as soon as the proposal is sufficiently supported."
   },
   "ground_truth_relationship_labels_assigned": false,
   "measured_model_results_published": false,
+  "grant_application_preparation": "ACTIVE",
   "public_private_boundary": "Only aggregate research-progress counts are public. Private evidence packets, historical-context evidence, raw operational records, and case-level decisions are not exposed by this status artifact."
 }
